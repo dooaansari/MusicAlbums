@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "871347318122",
+    "project_id": "foodtracker-a048b",
+    "storage_bucket": "foodtracker-a048b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871347318122:android:1221ecdcae41e230fc8913",
+        "android_client_info": {
+          "package_name": "com.app.musicalbums"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871347318122-obj6vbhf6lp9hn9qdp3v7cnpdt09af3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJcD9suFSE-dco0Dblb7fLTtoZKULX3lg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871347318122-obj6vbhf6lp9hn9qdp3v7cnpdt09af3k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
