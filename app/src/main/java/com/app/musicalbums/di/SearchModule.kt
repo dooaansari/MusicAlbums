@@ -1,25 +1,23 @@
 package com.app.musicalbums.di
 
-import androidx.fragment.app.Fragment
-import com.app.musicalbums.contracts.IView
+import com.app.musicalbums.adapters.ArtistAdapter
 import com.app.musicalbums.features.login.LoginRepository
+import com.app.musicalbums.features.search.repository.SearchRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.scopes.FragmentScoped
-import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 @InstallIn(FragmentComponent::class)
-object LoginModule {
+object SearchModule {
 
     @Provides
     @FragmentScoped
-    fun providesLoginView(fragment: Fragment) = fragment as IView
+    fun providesArtistAdapter() = ArtistAdapter()
 
-    @Provides
-    @FragmentScoped
-    fun providesLoginRepository(loginRepository: LoginRepository) = loginRepository
-
+//    @Provides
+//    @FragmentScoped
+//    fun providesLoginRepository(searchRepository: SearchRepository) = searchRepository
 }

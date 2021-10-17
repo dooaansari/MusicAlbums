@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-android-extensions'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -37,7 +38,6 @@ android {
 
     buildFeatures{
         viewBinding true
-        dataBinding true
     }
 
     packagingOptions {
@@ -53,7 +53,9 @@ dependencies {
     def nav_version = "2.3.5"
 
     def lifecycle_version = "2.4.0-alpha03"
+    def paging_version = "3.0.1"
 
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

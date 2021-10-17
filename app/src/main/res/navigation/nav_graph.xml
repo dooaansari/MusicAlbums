@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/login_fragment"
+    app:startDestination="@id/main_fragment"
     >
 
     <fragment android:id="@+id/login_fragment"
@@ -20,5 +20,17 @@
         android:label="@string/home"
         android:name="com.app.musicalbums.features.home.HomeFragment"/>
 
+    <fragment android:id="@+id/main_fragment"
+        tools:layout="@layout/main_fragment"
+        android:label="@string/main"
+        android:name="com.app.musicalbums.features.main.MainFragment">
+        <action
+            android:id="@+id/action_main_to_search"
+            app:destination="@id/search_fragment" />
+    </fragment>
 
+    <fragment android:id="@+id/search_fragment"
+        tools:layout="@layout/search_fragment"
+        android:label="@string/search"
+        android:name="com.app.musicalbums.features.search.SearchFragment"/>
 </navigation>

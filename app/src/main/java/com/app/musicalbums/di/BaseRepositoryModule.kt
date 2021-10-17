@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class BaseRepositoryModule {
+object BaseRepositoryModule {
 
     @Provides
     fun providesBaseRepository(repository: BaseRepository) = repository

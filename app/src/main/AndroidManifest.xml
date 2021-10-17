@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:name="com.app.musicalbums.MainApplication"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.MusicAlbums">
+        android:theme="@style/Theme.MusicAlbums.Default">
         <activity android:name="com.app.musicalbums.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

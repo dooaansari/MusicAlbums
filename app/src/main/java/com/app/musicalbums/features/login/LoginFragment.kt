@@ -32,7 +32,6 @@ class LoginFragment : Fragment() , IView, ILoginFragment{
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
-        binding.presenter = this
         return view
     }
 
@@ -43,13 +42,13 @@ class LoginFragment : Fragment() , IView, ILoginFragment{
     }
 
     private fun subscribeComments(){
-        viewModel.getAppComments()
-        viewModel.commentsSuccess.observe(viewLifecycleOwner,{
-            Log.i("response",it.toString())
-        })
-        viewModel.commentsFailure.observe(viewLifecycleOwner, {
-            Log.i("response","error")
-        })
+//        viewModel.getAppComments()
+//        viewModel.commentsSuccess.observe(viewLifecycleOwner,{
+//            Log.i("response",it.toString())
+//        })
+//        viewModel.commentsFailure.observe(viewLifecycleOwner, {
+//            Log.i("response","error")
+//        })
     }
 
 
@@ -63,7 +62,7 @@ class LoginFragment : Fragment() , IView, ILoginFragment{
 //    }
 
     override fun onResult() {
-      viewModel.loginUser()
+      //viewModel.loginUser()
     }
 
 }

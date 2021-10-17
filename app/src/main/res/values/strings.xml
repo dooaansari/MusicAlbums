@@ -3,4 +3,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="login">Login</string>
     <string name="home">Home</string>
+    <string name="main">Main</string>
+
+
+    <!-- common -->
+    <string name="search">Search</string>
+
+    <!-- hint text -->
+    <string name="search_artist_name_hint">Search by Artist name</string>
+
+
+    <!-- menu -->
+
+    <!-- content description -->
+    <string name="search_icon_description">Search Field</string>
+
 </resources>

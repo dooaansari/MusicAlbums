@@ -1,10 +1,13 @@
 package com.app.musicalbums.di
 
 import com.app.musicalbums.network.apis.CommentsService
+import com.app.musicalbums.network.apis.LastFMService
+import com.app.musicalbums.network.interceptors.QueryInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,7 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
-    private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+    private const val BASE_URL = "https://ws.audioscrobbler.com/2.0/"
 
 
     @Singleton
@@ -24,11 +27,17 @@ object ApiModule {
             level = HttpLoggingInterceptor.Level.BASIC
         }
 
+
     @Singleton
     @Provides
-    fun providesOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+    fun providesQueryInterceptor() = QueryInterceptor()
+
+    @Singleton
+    @Provides
+    fun providesOkHttpClient(queryInterceptor: QueryInterceptor, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
         OkHttpClient
             .Builder()
+            .addInterceptor(queryInterceptor)
             .addInterceptor(httpLoggingInterceptor)
             .build()
     @Singleton
@@ -41,4 +50,8 @@ object ApiModule {
     @Singleton
     @Provides
     fun provideApiService(retrofit: Retrofit): CommentsService = retrofit.create(CommentsService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideLastFMApiService(retrofit: Retrofit): LastFMService = retrofit.create(LastFMService::class.java)
 }
