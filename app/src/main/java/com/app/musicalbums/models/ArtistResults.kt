@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName
 data class ArtistResults(
     @SerializedName("opensearch:totalResults")
     @Expose
-    var opensearchTotalResults: String,
+    var opensearchTotalResults: Int,
     @SerializedName("opensearch:startIndex")
     @Expose
-    var opensearchStartIndex: String,
+    var opensearchStartIndex: Int,
     @SerializedName("opensearch:itemsPerPage")
     @Expose
-    var opensearchItemsPerPage: String,
+    var opensearchItemsPerPage: Int,
     @SerializedName("artistmatches")
     @Expose
     var artistmatches: ArtistMatches

@@ -1,6 +1,9 @@
 package com.app.musicalbums.di
 
+import androidx.paging.LoadStateAdapter
 import com.app.musicalbums.adapters.ArtistAdapter
+import com.app.musicalbums.adapters.ArtistLoadStateAdapter
+import com.app.musicalbums.adapters.viewholders.LoadStateHolder
 import com.app.musicalbums.features.login.LoginRepository
 import com.app.musicalbums.features.search.repository.SearchRepository
 import dagger.Module
@@ -16,6 +19,10 @@ object SearchModule {
     @Provides
     @FragmentScoped
     fun providesArtistAdapter() = ArtistAdapter()
+
+    @Provides
+    @FragmentScoped
+    fun providesLoadStateAdapter() = ArtistLoadStateAdapter()
 
 //    @Provides
 //    @FragmentScoped

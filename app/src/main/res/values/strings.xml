@@ -10,12 +10,19 @@
     <string name="search">Search</string>
 
     <!-- hint text -->
-    <string name="search_artist_name_hint">Search by Artist name</string>
+    <string name="search_artist_name_hint">Artist Name</string>
 
 
     <!-- menu -->
 
     <!-- content description -->
     <string name="search_icon_description">Search Field</string>
+
+    <!-- error messages -->
+    <string name="network_error">Your network is offline</string>
+    <string name="server_unresponsive">Unable to access data</string>
+    <string name="unexpected_error">Unexpected error occurred</string>
+    <string name="no_data">No data available</string>
+    <string name="unable_fetch">Unable to fetch data</string>
 
 </resources>

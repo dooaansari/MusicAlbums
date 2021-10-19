@@ -20,7 +20,6 @@ class ArtistAdapter : PagingDataAdapter<Artist, ArtistViewHolder>(DataDifferntia
     }
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
-        Log.i("tag", position.toString())
         holder.bindView(getItem(position))
     }
 

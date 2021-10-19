@@ -1,28 +1,38 @@
 package com.app.musicalbums.features.search
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
-import androidx.paging.liveData
+import androidx.paging.*
 import com.app.musicalbums.di.IoDispatcher
 import com.app.musicalbums.features.search.repository.SearchRepository
+import com.app.musicalbums.models.Artist
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(@IoDispatcher private val ioDispatcher: CoroutineDispatcher, private val repository: SearchRepository) : ViewModel() {
-    var searchQuery = "cher"
-    val pager = Pager(PagingConfig(pageSize = 50)) {
-        Log.i("tag", "calling")
-        repository.getArtistListDataSource(searchQuery)
+class SearchViewModel @Inject constructor(
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val repository: SearchRepository
+) : ViewModel() {
+
+    companion object {
+        const val PAGE_SIZE = 30
     }
-    val listData = Pager(PagingConfig(pageSize = 30)) {
-       Log.i("tag", "calling")
-       repository.getArtistListDataSource(searchQuery)
-    }.liveData.cachedIn(viewModelScope)
+
+    var previousSearchQuery = ""
+    var isInitialLoad = true
+
+    val getSearchedArtist: (query: String?) -> LiveData<PagingData<Artist>>? = { searchQuery ->
+        isInitialLoad = false
+        if (!searchQuery.isNullOrBlank() && previousSearchQuery != searchQuery) {
+            Pager(PagingConfig(pageSize = PAGE_SIZE)) {
+                repository.getArtistListDataSource(searchQuery.trim())
+            }.liveData.cachedIn(viewModelScope)
+        } else null
+    }
+
 
 }

@@ -17,7 +17,5 @@ class ArtistViewHolder(private val binding : ArtistRecyclerRowBinding): BaseView
        }
     }
 
-    override fun itemClick(view: View?) {
 
-    }
 }

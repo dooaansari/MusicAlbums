@@ -3,6 +3,6 @@
     <attr name="iconColor" format="reference" />
 
     <declare-styleable name="SearchComponent">
-        <attr name="hintText" format="reference" />
+        <attr name="hintTextSearch" format="reference" />
     </declare-styleable>
 </resources>
