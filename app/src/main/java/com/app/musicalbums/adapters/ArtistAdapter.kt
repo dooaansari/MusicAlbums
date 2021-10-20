@@ -1,28 +1,20 @@
 package com.app.musicalbums.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.viewbinding.ViewBinding
 import com.app.musicalbums.adapters.viewholders.ArtistViewHolder
+import com.app.musicalbums.base.BasePagingDataAdapter
 import com.app.musicalbums.databinding.ArtistRecyclerRowBinding
 import com.app.musicalbums.models.Artist
 
-
-class ArtistAdapter : PagingDataAdapter<Artist, ArtistViewHolder>(DataDifferntiator)  {
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
-        val binding = ArtistRecyclerRowBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-        return ArtistViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
-        holder.bindView(getItem(position))
-    }
-
+//PagingDataAdapter<Artist, ArtistViewHolder>(DataDifferntiator)
+class ArtistAdapter : BasePagingDataAdapter<ArtistRecyclerRowBinding, Artist, ArtistViewHolder>(
+    ArtistRecyclerRowBinding:: class.java,
+    ArtistViewHolder::class.java,
+    DataDifferntiator
+) {
 
     object DataDifferntiator : DiffUtil.ItemCallback<Artist>() {
 
@@ -33,6 +25,11 @@ class ArtistAdapter : PagingDataAdapter<Artist, ArtistViewHolder>(DataDifferntia
         override fun areContentsTheSame(oldItem: Artist, newItem: Artist): Boolean {
             return oldItem == newItem
         }
+    }
+
+    override fun bindView(parent: ViewGroup): ViewBinding {
+        return ArtistRecyclerRowBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
     }
 
 

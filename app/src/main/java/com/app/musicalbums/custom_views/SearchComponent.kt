@@ -13,7 +13,7 @@ import com.app.musicalbums.databinding.SearchComponentBinding
 import com.app.musicalbums.helpers.InputValidator
 
 
-class SearchComponent @JvmOverloads constructor(
+open class SearchComponent @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
@@ -37,7 +37,7 @@ class SearchComponent @JvmOverloads constructor(
             enableButton(it.toString())
         }
         binding.searchButton.setOnClickListener {
-            searchButtonClick()
+            searchButtonClick(getSearchText())
         }
         typedArray.recycle()
     }
@@ -48,7 +48,7 @@ class SearchComponent @JvmOverloads constructor(
 
     fun getSearchText() = binding.searchField.editText?.text.toString()
 
-    var searchButtonClick = {}
+    var searchButtonClick: (String)->Unit = {}
 
 
 }

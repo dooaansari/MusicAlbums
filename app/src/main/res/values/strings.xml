@@ -22,7 +22,9 @@
     <string name="network_error">Your network is offline</string>
     <string name="server_unresponsive">Unable to access data</string>
     <string name="unexpected_error">Unexpected error occurred</string>
-    <string name="no_data">No data available</string>
+    <string name="no_data">No search results found</string>
     <string name="unable_fetch">Unable to fetch data</string>
+    <string name="authentication_failed">Authentication failed</string>
+    <string name="operation_failed">Error occurred while processing request, Please try again in few moments</string>
 
 </resources>

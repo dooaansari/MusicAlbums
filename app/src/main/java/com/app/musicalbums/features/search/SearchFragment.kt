@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.paging.LoadStates
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.musicalbums.R
 import com.app.musicalbums.adapters.ArtistAdapter
@@ -45,22 +47,25 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>() {
         setRecyclerView()
     }
 
+    fun setLoadState(loadState: CombinedLoadStates, isInitialLoad: Boolean){
+        viewModel.isEmptyList =
+            loadState.refresh is LoadState.NotLoading && artistAdapter.itemCount == 0
+
+        if (loadState.source.refresh is LoadState.Error) {
+            binding.noData.text = context?.getString(R.string.unable_fetch)
+        } else {
+            binding.noData.text = context?.getString(R.string.no_data)
+
+        }
+        binding.noData.isVisible = viewModel.isEmptyList && !isInitialLoad
+        binding.loader.isVisible = loadState.source.refresh is LoadState.Loading
+        binding.artistRecyclerview.isVisible =
+            loadState.source.refresh is LoadState.NotLoading && !viewModel.isEmptyList
+    }
 
     private fun addLoadStateHandler(){
         artistAdapter.addLoadStateListener { loadState ->
-            val isEmptyList =
-                loadState.refresh is LoadState.NotLoading && artistAdapter.itemCount == 0
-
-            if (loadState.source.refresh is LoadState.Error) {
-                binding.noData.text = context?.getString(R.string.unable_fetch)
-            } else {
-                binding.noData.text = context?.getString(R.string.no_data)
-
-            }
-            binding.noData.isVisible = isEmptyList && !viewModel.isInitialLoad
-            binding.loader.isVisible = loadState.source.refresh is LoadState.Loading
-            binding.artistRecyclerview.isVisible =
-                loadState.source.refresh is LoadState.NotLoading && !isEmptyList
+          setLoadState(loadState, viewModel.isInitialLoad)
         }
     }
     private fun setRecyclerView() {
@@ -75,14 +80,12 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>() {
         binding.searchComponent.searchButtonClick = ::onSearchButtonClick
     }
 
-    private fun onSearchButtonClick() {
-        val query = binding.searchComponent.getSearchText()
+    fun onSearchButtonClick(query: String) {
         searchArtist(query)
         viewModel.previousSearchQuery = query
     }
 
-    private fun searchArtist(searchQuery: String) {
-        Log.i("tag", searchQuery)
+    fun searchArtist(searchQuery: String) {
         viewModel.getSearchedArtist(searchQuery)?.observe(viewLifecycleOwner, { data ->
             data?.let {
                 lifecycleScope.launch {

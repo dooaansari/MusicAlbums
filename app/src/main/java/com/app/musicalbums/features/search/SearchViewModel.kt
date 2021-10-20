@@ -13,9 +13,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val repository: SearchRepository
+open class SearchViewModel @Inject constructor(
+    @IoDispatcher val ioDispatcher: CoroutineDispatcher,
+    val repository: SearchRepository
 ) : ViewModel() {
 
     companion object {
@@ -24,6 +24,7 @@ class SearchViewModel @Inject constructor(
 
     var previousSearchQuery = ""
     var isInitialLoad = true
+    var isEmptyList = true
 
     val getSearchedArtist: (query: String?) -> LiveData<PagingData<Artist>>? = { searchQuery ->
         isInitialLoad = false
