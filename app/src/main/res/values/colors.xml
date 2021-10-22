@@ -17,4 +17,6 @@
     <color name="gradient_shade_7">#744A6D</color>
     <color name="green_100">#45ad89</color>
     <color name="green_200">#1e8763</color>
+    <color name="green_300">#4Da2dbcc</color>
+    <color name="gray_100">#cdd1cf</color>
 </resources>

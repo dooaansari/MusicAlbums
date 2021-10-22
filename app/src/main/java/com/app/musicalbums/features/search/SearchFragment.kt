@@ -8,28 +8,27 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.LoadStates
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.musicalbums.R
 import com.app.musicalbums.adapters.ArtistAdapter
-import com.app.musicalbums.adapters.ArtistLoadStateAdapter
+import com.app.musicalbums.adapters.LoadStateAdapter
 import com.app.musicalbums.base.BaseFragment
-import com.app.musicalbums.contracts.IToolbar
+import com.app.musicalbums.contracts.IOnItemClick
 import com.app.musicalbums.databinding.SearchFragmentBinding
-import com.app.musicalbums.enums.ToolbarAction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<SearchFragmentBinding>() {
-    @Inject
-    lateinit var artistAdapter: ArtistAdapter
+class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
+
+    var artistAdapter: ArtistAdapter = ArtistAdapter(this)
 
     @Inject
-    lateinit var artistLoadStateAdapter: ArtistLoadStateAdapter
+    lateinit var artistLoadStateAdapter: LoadStateAdapter
 
     override val viewModel: SearchViewModel by viewModels()
 
@@ -93,6 +92,11 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>() {
                 }
             }
         })
+    }
+
+    override fun onRecyclerItemClick(position: Int) {
+        Log.i("tag",artistAdapter.snapshot()[position]?.name?: "")
+        findNavController().navigate(SearchFragmentDirections.actionSearchToTopalbums(artistAdapter.snapshot()[position]?.name?: ""))
     }
 
 

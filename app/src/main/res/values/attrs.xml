@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="iconColor" format="reference" />
+    <attr name="rowColor" format="reference" />
+    <attr name="rowBorder" format="reference"/>
 
     <declare-styleable name="SearchComponent">
         <attr name="hintTextSearch" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="FontIcon">
+        <attr name="iconValue" format="reference" />
     </declare-styleable>
 </resources>

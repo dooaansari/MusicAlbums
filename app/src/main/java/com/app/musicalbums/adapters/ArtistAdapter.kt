@@ -6,14 +6,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.viewbinding.ViewBinding
 import com.app.musicalbums.adapters.viewholders.ArtistViewHolder
 import com.app.musicalbums.base.BasePagingDataAdapter
+import com.app.musicalbums.contracts.IOnItemClick
 import com.app.musicalbums.databinding.ArtistRecyclerRowBinding
 import com.app.musicalbums.models.Artist
 
 //PagingDataAdapter<Artist, ArtistViewHolder>(DataDifferntiator)
-class ArtistAdapter : BasePagingDataAdapter<ArtistRecyclerRowBinding, Artist, ArtistViewHolder>(
+class ArtistAdapter(onItemClick: IOnItemClick) : BasePagingDataAdapter<ArtistRecyclerRowBinding, Artist, ArtistViewHolder>(
     ArtistRecyclerRowBinding:: class.java,
     ArtistViewHolder::class.java,
-    DataDifferntiator
+    DataDifferntiator,
+    onItemClick
 ) {
 
     object DataDifferntiator : DiffUtil.ItemCallback<Artist>() {

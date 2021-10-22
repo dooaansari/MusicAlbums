@@ -17,5 +17,7 @@
         <!-- Customize your theme here. -->
 
         <item name="iconColor">@color/white</item>
+        <item name="rowColor">@color/green_300</item>
+        <item name="rowBorder">@color/gray_100</item>
     </style>
 </resources>

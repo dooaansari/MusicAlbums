@@ -7,7 +7,7 @@ import androidx.paging.LoadStateAdapter
 import com.app.musicalbums.adapters.viewholders.LoadStateHolder
 import com.app.musicalbums.databinding.ArtistRecyclerErrorFooterBinding
 
-class ArtistLoadStateAdapter : LoadStateAdapter<LoadStateHolder>() {
+class LoadStateAdapter : LoadStateAdapter<LoadStateHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateHolder {
         val binding = ArtistRecyclerErrorFooterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return LoadStateHolder(binding)

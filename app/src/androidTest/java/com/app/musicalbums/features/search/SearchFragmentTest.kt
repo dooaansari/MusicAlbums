@@ -1,43 +1,30 @@
 package com.app.musicalbums.features.search
 
-import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
-import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.musicalbums.R
 import com.app.musicalbums.TestCoroutineRule
 import com.app.musicalbums.custom_views.SearchComponent
-import com.app.musicalbums.features.search.repository.ArtistDataSource
-import com.app.musicalbums.features.search.repository.SearchRepository
 import com.app.musicalbums.launchFragmentHiltContainer
 import com.app.musicalbums.models.Artist
-import com.app.musicalbums.network.apis.LastFMService
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import java.lang.Exception
-import org.mockito.Mockito.`when`
-
-
 
 
 @HiltAndroidTest

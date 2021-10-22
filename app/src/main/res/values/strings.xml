@@ -4,6 +4,7 @@
     <string name="login">Login</string>
     <string name="home">Home</string>
     <string name="main">Main</string>
+    <string name="albums">Albums</string>
 
 
     <!-- common -->
@@ -27,4 +28,7 @@
     <string name="authentication_failed">Authentication failed</string>
     <string name="operation_failed">Error occurred while processing request, Please try again in few moments</string>
 
+    <!-- font-awsome icons -->
+    <string name="icon_heart">&#xf004;</string>
+    <string name="icon_heart_unfilled">&#xf08a;</string>
 </resources>

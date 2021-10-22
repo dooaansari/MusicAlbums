@@ -36,7 +36,7 @@ abstract class BaseFragment<T: ViewBinding> : Fragment(), IToolbar {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_search -> {
-                findNavController().navigateAction(MainFragmentDirections::actionMainToSearch)
+                findNavController().navigate(MainFragmentDirections.actionMainToSearch())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -47,11 +47,5 @@ abstract class BaseFragment<T: ViewBinding> : Fragment(), IToolbar {
         super.onPrepareOptionsMenu(menu)
         setMenuItems(menu)
     }
-
-    protected fun <T:() -> NavDirections> NavController.navigateAction(action: T) {
-        navigate(action())
-    }
-
-
 }
 
