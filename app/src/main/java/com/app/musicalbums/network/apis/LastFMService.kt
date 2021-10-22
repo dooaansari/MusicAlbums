@@ -1,5 +1,6 @@
 package com.app.musicalbums.network.apis
 
+import com.app.musicalbums.models.Album
 import com.app.musicalbums.models.ArtistSearchResponse
 import com.app.musicalbums.models.TopAlbumsResponse
 import retrofit2.Response
@@ -21,4 +22,10 @@ interface LastFMService {
         @Query("artist") artist: String,
         @Query("page") page: Int
     ): Response<TopAlbumsResponse>
+
+    @GET(".")
+    suspend fun getAlbumTracks(
+        @Query("method") method: String,
+        @Query("artist") artist: String,
+    ): Response<Album>
 }

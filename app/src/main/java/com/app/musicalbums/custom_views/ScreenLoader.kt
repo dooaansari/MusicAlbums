@@ -1,0 +1,33 @@
+package com.app.musicalbums.custom_views
+
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.app.musicalbums.R
+import com.app.musicalbums.databinding.FontIconBinding
+import com.app.musicalbums.databinding.ScreenLoaderBinding
+
+class ScreenLoader @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ConstraintLayout(context, attrs, defStyle) {
+
+    private var binding: ScreenLoaderBinding = ScreenLoaderBinding.inflate(
+        LayoutInflater.from(context),
+        this,
+        true
+    )
+
+    init {
+        val typedArray = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.ScreenLoader, 0, 0
+        )
+
+        val loaderText: Int = typedArray.getResourceId(R.styleable.ScreenLoader_loaderText, 0)
+        binding.loaderText.text = context.getString(loaderText)
+        typedArray.recycle()
+    }
+}

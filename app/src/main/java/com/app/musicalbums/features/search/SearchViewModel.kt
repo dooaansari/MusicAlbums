@@ -2,6 +2,7 @@ package com.app.musicalbums.features.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.app.musicalbums.di.IoDispatcher
@@ -34,6 +35,6 @@ open class SearchViewModel @Inject constructor(
             }.liveData.cachedIn(viewModelScope)
         } else null
     }
-
+//.map { it.filter { it.mbid.isNullOrBlank() } }
 
 }

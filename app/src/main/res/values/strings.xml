@@ -6,7 +6,6 @@
     <string name="main">Main</string>
     <string name="albums">Albums</string>
 
-
     <!-- common -->
     <string name="search">Search</string>
 
@@ -27,8 +26,15 @@
     <string name="unable_fetch">Unable to fetch data</string>
     <string name="authentication_failed">Authentication failed</string>
     <string name="operation_failed">Error occurred while processing request, Please try again in few moments</string>
+    <string name="album_insert_failure">Sorry, There was an issue adding album to favourite</string>
+
+    <!-- success message -->
+    <string name="album_insert_success">Album added to favourites</string>
 
     <!-- font-awsome icons -->
     <string name="icon_heart">&#xf004;</string>
     <string name="icon_heart_unfilled">&#xf08a;</string>
+
+    <!-- loader messages -->
+    <string name="adding_favourite">Adding to favourite</string>
 </resources>

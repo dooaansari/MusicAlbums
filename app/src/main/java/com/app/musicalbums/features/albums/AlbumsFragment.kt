@@ -17,8 +17,11 @@ import com.app.musicalbums.R
 import com.app.musicalbums.adapters.AlbumsAdapter
 import com.app.musicalbums.adapters.LoadStateAdapter
 import com.app.musicalbums.base.BaseFragment
+import com.app.musicalbums.contracts.IOnAlbumClick
 import com.app.musicalbums.contracts.IOnItemClick
 import com.app.musicalbums.databinding.AlbumsFragmentBinding
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -26,7 +29,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnItemClick {
+class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
 
     var albumsAdapter: AlbumsAdapter = AlbumsAdapter(this)
 
@@ -49,9 +52,10 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnItemClick {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
         getTopAlbums(args.artist)
+        addScreenLoaderObserver()
     }
 
-    fun setLoadState(loadState: CombinedLoadStates){
+    fun setLoadState(loadState: CombinedLoadStates) {
         viewModel.isEmptyList =
             loadState.refresh is LoadState.NotLoading && albumsAdapter.itemCount == 0
 
@@ -67,11 +71,12 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnItemClick {
             loadState.source.refresh is LoadState.NotLoading && !viewModel.isEmptyList
     }
 
-    private fun addLoadStateHandler(){
+    private fun addLoadStateHandler() {
         albumsAdapter.addLoadStateListener { loadState ->
             setLoadState(loadState)
         }
     }
+
     private fun setRecyclerView() {
         addLoadStateHandler()
         binding.albumsRecyclerview.apply {
@@ -80,19 +85,30 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnItemClick {
         }
     }
 
+    private fun addScreenLoaderObserver() {
+        viewModel.loadingStatus.observe(viewLifecycleOwner, {
+            binding.loaderScreen.isVisible = it
+        })
+    }
+
     fun getTopAlbums(artist: String?) {
-
-
         viewModel.getTopAlbums(artist)?.observe(viewLifecycleOwner, {
             lifecycleScope.launch {
                 albumsAdapter.submitData(it)
             }
 
-     })
+        })
+    }
+
+    override fun onFavouriteClick(position: Int) {
+        albumsAdapter.snapshot()[position]?.let {
+            val result = viewModel.setAlbumTracks(it)
+            this.view?.let { view -> Snackbar.make(view, getString(result), LENGTH_SHORT).show() }
+        }
     }
 
     override fun onRecyclerItemClick(position: Int) {
-        Log.i("tag",albumsAdapter.snapshot()[position]?.name?: "")
+        Log.i("tag", albumsAdapter.snapshot()[position]?.name ?: "")
     }
 
 }

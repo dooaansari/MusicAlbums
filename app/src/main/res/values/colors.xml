@@ -19,4 +19,5 @@
     <color name="green_200">#1e8763</color>
     <color name="green_300">#4Da2dbcc</color>
     <color name="gray_100">#cdd1cf</color>
+    <color name="opaque_black">#4D000000</color>
 </resources>

@@ -19,5 +19,6 @@
         <item name="iconColor">@color/white</item>
         <item name="rowColor">@color/green_300</item>
         <item name="rowBorder">@color/gray_100</item>
+        <item name="loaderBackground">@color/opaque_black</item>
     </style>
 </resources>

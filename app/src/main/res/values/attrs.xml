@@ -3,6 +3,7 @@
     <attr name="iconColor" format="reference" />
     <attr name="rowColor" format="reference" />
     <attr name="rowBorder" format="reference"/>
+    <attr name="loaderBackground" format="reference"/>
 
     <declare-styleable name="SearchComponent">
         <attr name="hintTextSearch" format="reference" />
@@ -10,5 +11,9 @@
 
     <declare-styleable name="FontIcon">
         <attr name="iconValue" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ScreenLoader">
+        <attr name="loaderText" format="reference" />
     </declare-styleable>
 </resources>
