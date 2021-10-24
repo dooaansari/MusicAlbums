@@ -7,8 +7,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MainRepositoryImpl @Inject constructor(
-    private val albumDao: AlbumDao
+open class MainRepositoryImpl @Inject constructor(
+    override val albumDao: AlbumDao
 ) : BaseRepository(), MainRepository {
     override fun getFavouritesDataSource() = albumDao.getAllAlbums()
     override suspend fun deleteAlbum(name: String): IOResponse<Boolean> {

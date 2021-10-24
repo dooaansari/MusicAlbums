@@ -103,7 +103,7 @@ class SearchFragmentTest {
             source = LoadStates(LoadState.Error(exception),LoadState.Error(exception),LoadState.Error(exception))
         )
         launchFragmentHiltContainer<SearchFragment>(){
-            this.setLoadState(loadState,false)
+            this.setLoadState(loadState)
         }
         onView(withId(R.id.loader)).check(matches(not(isDisplayed())))
         onView(withId(R.id.no_data)).check(matches(isDisplayed()))
@@ -119,7 +119,7 @@ class SearchFragmentTest {
             source = LoadStates(LoadState.Loading,LoadState.Loading,LoadState.Loading)
         )
         launchFragmentHiltContainer<SearchFragment>(){
-            this.setLoadState(loadState,false)
+            this.setLoadState(loadState)
         }
         onView(withId(R.id.loader)).check(matches(isDisplayed()))
         onView(withId(R.id.no_data)).check(matches(not(isDisplayed())))

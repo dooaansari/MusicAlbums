@@ -11,7 +11,7 @@ import retrofit2.Response
 
 class AlbumsDataSource(private val artistApiService: LastFMService,
                        private val artistName: String) : BasePagingAdapter<Album, TopAlbumsResponse>() {
-    override fun loadData(params: LoadParams<Int>, response: Response<TopAlbumsResponse>) {
+    override fun loadData(response: Response<TopAlbumsResponse>) {
         val responseBody = response.body()
         list = responseBody?.topalbums?.album ?: emptyList()
         totalResults = responseBody?.topalbums?.attr?.total

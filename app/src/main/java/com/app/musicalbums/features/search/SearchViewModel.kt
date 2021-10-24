@@ -29,12 +29,10 @@ open class SearchViewModel @Inject constructor(
 
     val getSearchedArtist: (query: String?) -> LiveData<PagingData<Artist>>? = { searchQuery ->
         isInitialLoad = false
-        if (!searchQuery.isNullOrBlank() && previousSearchQuery != searchQuery) {
+        if (!searchQuery.isNullOrBlank()) {
             Pager(PagingConfig(pageSize = PAGE_SIZE)) {
                 repository.getArtistListDataSource(searchQuery.trim())
             }.liveData.map { it.filter { it.mbid.isNotBlank() } }.cachedIn(viewModelScope)
         } else null
     }
-//.map { it.filter { it.mbid.isNullOrBlank() } }
-
 }

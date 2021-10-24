@@ -44,10 +44,10 @@ open class MainViewModel @Inject constructor(
 
                     deleteMessageId.value = Pair(true,R.string.album_delete_success)
                 } else {
-                    deleteMessageId.value = Pair(true,R.string.delete_album_error)
+                    deleteMessageId.value = Pair(false,R.string.delete_album_error)
                 }
             } else {
-                deleteMessageId.value = Pair(true,R.string.delete_album_error)
+                deleteMessageId.value = Pair(false,R.string.delete_album_error)
             }
         }
     }

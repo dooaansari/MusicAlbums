@@ -8,7 +8,7 @@ import com.app.musicalbums.network.exceptions.parseError
 import retrofit2.Response
 
 abstract class BasePagingAdapter<T : Any, E: Any>() : PagingSource<Int, T>() {
-    abstract fun loadData(params: LoadParams<Int>,response: Response<E>)
+    abstract fun loadData(response: Response<E>)
     abstract suspend fun callAPI(currentPage: Int):Response<E>
 
     var totalResults : Int? = 0
@@ -19,7 +19,7 @@ abstract class BasePagingAdapter<T : Any, E: Any>() : PagingSource<Int, T>() {
             val currentPage = params.key ?: 1
             val response = callAPI(currentPage)
             if (response.isSuccessful) {
-                loadData(params,response)
+                loadData(response)
                 val prevKey = if (currentPage == 1) null else currentPage - 1
 
                 return LoadResult.Page(
