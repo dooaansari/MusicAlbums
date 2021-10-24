@@ -4,6 +4,8 @@ import android.view.View
 import com.app.musicalbums.base.BaseViewHolder
 import com.app.musicalbums.contracts.IOnItemClick
 import com.app.musicalbums.databinding.ArtistRecyclerRowBinding
+import com.app.musicalbums.enums.ImageSize
+import com.app.musicalbums.helpers.loadImage
 import com.app.musicalbums.models.Artist
 
 class ArtistViewHolder(private val binding: ArtistRecyclerRowBinding) :
@@ -13,12 +15,12 @@ class ArtistViewHolder(private val binding: ArtistRecyclerRowBinding) :
         itemClickListener = onItemClick
         binding.root.setOnClickListener(this)
         if (data is Artist) {
-            with(binding) {
-                with(data) {
-                    artistName.text = name
-                }
-
+            with(data) {
+                binding.artistName.text = name
+                binding.image.loadImage(images, ImageSize.small)
             }
+
+
         }
     }
 

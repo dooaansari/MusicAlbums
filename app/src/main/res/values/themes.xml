@@ -20,5 +20,38 @@
         <item name="rowColor">@color/green_300</item>
         <item name="rowBorder">@color/gray_100</item>
         <item name="loaderBackground">@color/opaque_black</item>
+
+        <item name="headingStyle">@style/heading_text</item>
+        <item name="errorStyle">@style/error_text</item>
+        <item name="favouriteStyle">@style/favourite_text</item>
+        <item name="loaderTextStyle">@style/loader_text</item>
+        <item name="artistName">@style/text_main_heading</item>
+    </style>
+
+    <style name="heading_text" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/green_400</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="error_text" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/red_100</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="favourite_text" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/red_200</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="loader_text" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="text_main_heading" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/green_400</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

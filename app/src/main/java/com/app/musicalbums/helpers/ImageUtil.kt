@@ -4,6 +4,7 @@ import android.widget.ImageView
 import androidx.compose.ui.text.toLowerCase
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.app.musicalbums.R
 import com.app.musicalbums.enums.ImageSize
 import com.app.musicalbums.models.AlbumImage
 import com.app.musicalbums.models.Image
@@ -19,6 +20,7 @@ fun ImageView.loadImage(list: List<Image>?, imageSize: ImageSize) {
         if (it.text.isNotBlank()) {
             load(it.text) {
                 transformations(CircleCropTransformation())
+                placeholder(R.drawable.baseline_image_black)
             }
         }
     }
@@ -29,6 +31,7 @@ fun ImageView.loadAlbumImage(image: AlbumImage?) {
         if (it.text.isNotBlank()) {
             load(it.text) {
                 transformations(CircleCropTransformation())
+                placeholder(R.drawable.baseline_image_black)
             }
         }
     }
@@ -39,6 +42,7 @@ fun ImageView.loadImage(image: String?) {
         if (it.isNotBlank()) {
             load(it) {
                 transformations(CircleCropTransformation())
+                placeholder(R.drawable.baseline_image_black)
             }
         }
     }

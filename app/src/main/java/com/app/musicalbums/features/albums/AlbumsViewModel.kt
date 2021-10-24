@@ -31,6 +31,7 @@ open class AlbumsViewModel @Inject constructor(
 
     var isInitialLoad = true
     var isEmptyList = true
+    var navigatedToDetails = true
 
     val getTopAlbums: (artist: String?) -> LiveData<PagingData<Album>>? = { artist ->
         if (!artist.isNullOrBlank()) {
@@ -100,5 +101,8 @@ open class AlbumsViewModel @Inject constructor(
 
     }
 
+    fun resetObserver(){
+        favouriteAddResult.value = Pair(false,R.string.album_insert_failure)
+    }
 
 }

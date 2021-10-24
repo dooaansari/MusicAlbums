@@ -11,5 +11,7 @@
         android:fontFamily="@font/fontawesome"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="?favouriteStyle"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

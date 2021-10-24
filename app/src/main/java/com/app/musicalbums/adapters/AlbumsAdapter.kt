@@ -19,7 +19,6 @@ class AlbumsAdapter(onItemClick: IOnItemClick) : BasePagingDataAdapter<AlbumsRec
 
     fun updateFavouriteRow(position:Int){
         snapshot()[position]?.isFavourite = true
-        //val diffUtil = DataDifferntiator
         notifyItemChanged(position)
     }
 

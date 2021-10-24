@@ -39,7 +39,7 @@
         android:id="@+id/loader_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:loaderText="@string/adding_favourite"
+        app:loaderText="@string/processing"
         android:visibility="gone" />
 
 

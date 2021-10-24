@@ -32,6 +32,7 @@
     <string name="track_false">Unable to find any tracks for this album, Sorry can not add this to favourite</string>
     <string name="no_favourites">No favourite items available</string>
     <string name="delete_album_error">Unable to delete album</string>
+    <string name="no_tracks">No tracks available for this album</string>
     <!-- success message -->
     <string name="album_insert_success">Album added to favourites</string>
     <string name="album_delete_success">Album deleted successfully</string>
@@ -42,4 +43,6 @@
 
     <!-- loader messages -->
     <string name="adding_favourite">Adding to favourite</string>
+    <string name="loading_tracks">Loading Album Tracks</string>
+    <string name="processing">Processing</string>
 </resources>

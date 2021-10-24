@@ -60,7 +60,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
             binding.noData.text = context?.getString(R.string.unable_fetch)
             setViews(false, false, true)
         } else {
-            if (viewModel.isEmptyList) {
+            if (viewModel.isEmptyList && !viewModel.isInitialLoad) {
                 binding.noData.text = context?.getString(R.string.no_data)
                 setViews(isLoading, !isLoading && !viewModel.isEmptyList, !isLoading)
             } else {

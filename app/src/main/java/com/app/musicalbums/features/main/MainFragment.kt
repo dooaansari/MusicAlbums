@@ -41,6 +41,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>(), IToolbar.IAddAction, I
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        getTopAlbums()
         binding = MainFragmentBinding.inflate(inflater, container, false)
         addAction()
         return binding.root
@@ -49,7 +50,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>(), IToolbar.IAddAction, I
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
-        getTopAlbums()
         setDeleteObserver()
     }
 
@@ -111,6 +111,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>(), IToolbar.IAddAction, I
     }
 
     override fun onRecyclerItemClick(position: Int) {
+        viewModel.resetObserver()
         val data = favouriteAdapter.snapshot()[position]
         findNavController().navigate(
             MainFragmentDirections.actionMainToDetails(
@@ -122,19 +123,19 @@ class MainFragment : BaseFragment<MainFragmentBinding>(), IToolbar.IAddAction, I
         )
     }
 
-    fun setDeleteObserver(){
+    fun setDeleteObserver() {
         viewModel.deleteMessageId.observe(viewLifecycleOwner, {
             favouriteAdapter.deleteFavouriteRow(viewModel.clickedPosition)
-            if(it.first){
+            if (it.first) {
+                this@MainFragment.view?.let { view ->
+                    Snackbar.make(
+                        view,
+                        getString(it.second),
+                        BaseTransientBottomBar.LENGTH_SHORT
+                    ).show()
+                }
+            }
 
-            }
-            this@MainFragment.view?.let { view ->
-                Snackbar.make(
-                    view,
-                    getString(it.second),
-                    BaseTransientBottomBar.LENGTH_SHORT
-                ).show()
-            }
         })
     }
 

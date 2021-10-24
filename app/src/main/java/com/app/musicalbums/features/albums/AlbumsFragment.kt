@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -48,6 +50,7 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        getTopAlbums(args.artist)
         binding = AlbumsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -55,7 +58,6 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
-        getTopAlbums(args.artist)
         addScreenLoaderObserver()
         setFavouriteObserver()
         setAlbumTrackObserver()
@@ -106,26 +108,28 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
     }
 
     fun getTopAlbums(artist: String?) {
-        viewModel.getTopAlbums(artist)?.observe(viewLifecycleOwner, {
-            lifecycleScope.launch {
-                albumsAdapter.submitData(it)
-            }
+        if (albumsAdapter.itemCount == 0)
+            viewModel.getTopAlbums(artist)?.observe(viewLifecycleOwner, {
+                lifecycleScope.launch {
+                    albumsAdapter.submitData(it)
+                }
 
-        })
+            })
     }
 
     fun setFavouriteObserver() {
         viewModel.favouriteAddResult.observe(viewLifecycleOwner, {
             if (it.first) {
                 albumsAdapter.updateFavouriteRow(viewModel.clickedPosition)
+                this@AlbumsFragment.view?.let { view ->
+                    Snackbar.make(
+                        view,
+                        getString(it.second),
+                        LENGTH_SHORT
+                    ).show()
+                }
             }
-            this@AlbumsFragment.view?.let { view ->
-                Snackbar.make(
-                    view,
-                    getString(it.second),
-                    LENGTH_SHORT
-                ).show()
-            }
+
         })
     }
 
@@ -138,22 +142,27 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
 
     fun setAlbumTrackObserver() {
         viewModel.albumTracks.observe(viewLifecycleOwner, {
-            val data = albumsAdapter.snapshot()[viewModel.clickedPosition]
-            findNavController().navigate(
-                AlbumsFragmentDirections.actionTopalbumsToDetails(
-                    data?.artist?.name ?: "",
-                    data?.name ?: "",
-                    data?.images?.find { it.size == ImageSize.large.name }?.text ?: "",
-                    it.toTypedArray()
+            if (viewModel.navigatedToDetails) {
+                viewModel.navigatedToDetails = false
+                val data = albumsAdapter.snapshot()[viewModel.clickedPosition]
+                findNavController().navigate(
+                    AlbumsFragmentDirections.actionTopalbumsToDetails(
+                        data?.artist?.name ?: "",
+                        data?.name ?: "",
+                        data?.images?.find { it.size == ImageSize.large.name }?.text ?: "",
+                        it.toTypedArray()
+                    )
                 )
-            )
+            }
         })
     }
 
     override fun onRecyclerItemClick(position: Int) {
+        viewModel.resetObserver()
         viewModel.clickedPosition = position
         val data = albumsAdapter.snapshot()[position]
         viewModel.getAlbumTracks(data?.artist?.name, data?.name)
+        viewModel.navigatedToDetails = true
 
     }
 

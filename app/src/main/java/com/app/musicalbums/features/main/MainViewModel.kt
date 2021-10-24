@@ -51,4 +51,8 @@ open class MainViewModel @Inject constructor(
             }
         }
     }
+
+    fun resetObserver(){
+        deleteMessageId.value = Pair(false, R.string.delete_album_error)
+    }
 }

@@ -28,9 +28,9 @@ class AlbumsViewHolder(private val binding: AlbumsRecyclerRowBinding) :
             binding.albumName.text = name
 
             if (this.isFavourite) {
-                binding.favourite.setText(R.string.icon_heart_unfilled)
-            } else {
                 binding.favourite.setText(R.string.icon_heart)
+            } else {
+                binding.favourite.setText(R.string.icon_heart_unfilled)
             }
         }
         if (data is Album) {

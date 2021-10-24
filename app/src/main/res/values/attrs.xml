@@ -4,6 +4,12 @@
     <attr name="rowColor" format="reference" />
     <attr name="rowBorder" format="reference"/>
     <attr name="loaderBackground" format="reference"/>
+    <attr name="headingTextColor" format="reference"/>
+    <attr name="headingStyle" format="reference"/>
+    <attr name="errorStyle" format="reference"/>
+    <attr name="favouriteStyle" format="reference"/>
+    <attr name="loaderTextStyle" format="reference"/>
+    <attr name="artistName" format="reference"/>
 
     <declare-styleable name="SearchComponent">
         <attr name="hintTextSearch" format="reference" />

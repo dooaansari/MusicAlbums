@@ -20,4 +20,7 @@
     <color name="green_300">#4Da2dbcc</color>
     <color name="gray_100">#cdd1cf</color>
     <color name="opaque_black">#4D000000</color>
+    <color name="green_400">#CC1e291f</color>
+    <color name="red_100">#CC9c1f16</color>
+    <color name="red_200">#CC78130c</color>
 </resources>
