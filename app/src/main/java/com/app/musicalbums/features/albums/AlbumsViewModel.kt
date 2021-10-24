@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AlbumsViewModel @Inject constructor(
+open class AlbumsViewModel @Inject constructor(
     @IoDispatcher val ioDispatcher: CoroutineDispatcher,
     val repository: AlbumsRepository
 ) : ViewModel() {
@@ -68,13 +68,14 @@ class AlbumsViewModel @Inject constructor(
                     val messageId =
                         insertAlbumsWithTracks(album, response.data?.tracks?.track ?: emptyList())
                     favouriteAddResult.value = Pair(true, messageId)
-
                     loadingStatus.value = false
                 } else {
                     val messageId = runTimeExceptionParser((response as IOResponse.Error).exception)
                     favouriteAddResult.value = Pair(false, messageId)
                     loadingStatus.value = false
                 }
+            } else {
+                loadingStatus.value = false
             }
         }
 
@@ -93,6 +94,8 @@ class AlbumsViewModel @Inject constructor(
                     loadingStatus.value = false
                 }
             }
+        }else{
+            loadingStatus.value = false
         }
 
     }
