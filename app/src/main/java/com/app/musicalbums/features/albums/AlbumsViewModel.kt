@@ -1,9 +1,6 @@
 package com.app.musicalbums.features.albums
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.*
 import com.app.musicalbums.R
 import com.app.musicalbums.di.IoDispatcher
@@ -27,11 +24,13 @@ class AlbumsViewModel @Inject constructor(
         const val PAGE_SIZE = 50
     }
 
+    var clickedPosition = 0
     val loadingStatus = MutableLiveData<Boolean>()
+    val favouriteAddResult = MutableLiveData<Pair<Boolean, Int>>()
+    val albumTracks = MutableLiveData<List<Track>>()
 
     var isInitialLoad = true
     var isEmptyList = true
-    var messageId = 0
 
     val getTopAlbums: (artist: String?) -> LiveData<PagingData<Album>>? = { artist ->
         if (!artist.isNullOrBlank()) {
@@ -39,39 +38,63 @@ class AlbumsViewModel @Inject constructor(
             Pager(PagingConfig(pageSize = PAGE_SIZE)) {
                 val data = repository.getAlbumsListDataSource(artist.trim())
                 data
-            }.liveData.cachedIn(viewModelScope)
+            }.liveData.map { it.filter { it.name.isNotBlank() } }.cachedIn(viewModelScope)
         } else null
     }
 
     suspend fun insertAlbumsWithTracks(album: Album, tracks: List<Track>): Int {
-        val dbResponse = repository.insertAlbumWithTracks(
-            album.artist,
-            album,
-            tracks
-        )
-        if (dbResponse is IOResponse.Success) {
-            return R.string.album_insert_success
-        } else {
-            return R.string.album_insert_failure
-        }
+        album.artist?.let {
+            val dbResponse = repository.insertAlbumWithTracks(
+                it,
+                album,
+                tracks
+            )
+            if (dbResponse is IOResponse.Success) {
+                return R.string.album_insert_success
+            } else {
+                return R.string.album_insert_failure
+            }
+        } ?: return R.string.album_insert_failure
     }
 
-    fun setAlbumTracks(album: Album): Int {
+    fun setAlbumTracks(album: Album) {
         loadingStatus.value = true
-        val artistName = album.artist.name
+        val artistName = album.artist?.name
+        val albumName = album.name
         viewModelScope.launch {
-            if (!artistName.isNullOrBlank()) {
-                val response = repository.getAlbumTrack(artistName)
+            if (!artistName.isNullOrBlank() && albumName.isNotBlank()) {
+                val response = repository.getAlbumTrack(artistName, albumName)
                 if (response is IOResponse.Success) {
-                    messageId =
+                    val messageId =
                         insertAlbumsWithTracks(album, response.data?.tracks?.track ?: emptyList())
+                    favouriteAddResult.value = Pair(true, messageId)
+
+                    loadingStatus.value = false
                 } else {
-                    messageId = runTimeExceptionParser((response as IOResponse.Error).exception)
+                    val messageId = runTimeExceptionParser((response as IOResponse.Error).exception)
+                    favouriteAddResult.value = Pair(false, messageId)
+                    loadingStatus.value = false
                 }
             }
         }
-        loadingStatus.value = false
-        return messageId
+
+    }
+
+    fun getAlbumTracks(artist: String?, album: String?) {
+        loadingStatus.value = true
+        if (!artist.isNullOrBlank() && !album.isNullOrBlank()) {
+            viewModelScope.launch {
+                val response = repository.getAlbumTrack(artist, album)
+                if (response is IOResponse.Success) {
+                    albumTracks.value = response.data?.tracks?.track ?: emptyList()
+                    loadingStatus.value = false
+                } else {
+                    albumTracks.value = emptyList()
+                    loadingStatus.value = false
+                }
+            }
+        }
+
     }
 
 

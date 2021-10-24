@@ -3,6 +3,7 @@ package com.app.musicalbums.base
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.app.musicalbums.contracts.IOnItemClick
+import com.app.musicalbums.helpers.getNextPage
 import com.app.musicalbums.network.exceptions.parseError
 import retrofit2.Response
 
@@ -42,15 +43,5 @@ abstract class BasePagingAdapter<T : Any, E: Any>() : PagingSource<Int, T>() {
         }
     }
 
-    private fun getNextPage(totalResult: Int?, pageSize: Int?, currentPage: Int): Int? {
-        totalResult?.let {
-            pageSize?.let {
-                return when (totalResult > pageSize * currentPage) {
-                    true -> currentPage.plus(1)
-                    else -> null
-                }
-            }
-        }
-        return null
-    }
+
 }

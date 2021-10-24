@@ -1,23 +1,37 @@
 package com.app.musicalbums.models
 
+import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "track")
+@Entity(
+    tableName = "track",
+    foreignKeys = [ForeignKey(
+        entity = Album::class,
+        parentColumns = ["name"],
+        childColumns = ["albumName"],
+        onDelete = CASCADE
+    )]
+)
+@Parcelize
 data class Track(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
+
     @SerializedName("duration")
     @Expose
-    val duration: Int? = 0,
+    var duration: Int? = 0,
     @SerializedName("url")
     @Expose
-    val url: String? = null,
+    var url: String? = null,
+
+    @PrimaryKey
     @SerializedName("name")
     @Expose
-    val name: String? = null,
+    var name: String = "",
 
-    var albumId: Long? = 0
-)
+    var albumName: String = ""
+) : Parcelable

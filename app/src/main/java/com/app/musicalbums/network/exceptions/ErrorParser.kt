@@ -6,6 +6,7 @@ import com.app.musicalbums.network.constants.ApiErrorCodes
 import com.google.gson.Gson
 import retrofit2.HttpException
 import java.io.IOException
+import java.lang.IllegalStateException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
@@ -27,6 +28,7 @@ fun runTimeExceptionParser(ex: Throwable): Int{
     is HttpException -> R.string.unexpected_error
     is IOException -> R.string.server_unresponsive
     is AuthenticationFailed -> R.string.authentication_failed
+    is IllegalStateException -> R.string.track_false
     is TemporaryError -> R.string.operation_failed
 
     else -> R.string.unexpected_error

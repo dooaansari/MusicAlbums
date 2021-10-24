@@ -32,7 +32,7 @@ open class SearchViewModel @Inject constructor(
         if (!searchQuery.isNullOrBlank() && previousSearchQuery != searchQuery) {
             Pager(PagingConfig(pageSize = PAGE_SIZE)) {
                 repository.getArtistListDataSource(searchQuery.trim())
-            }.liveData.cachedIn(viewModelScope)
+            }.liveData.map { it.filter { it.mbid.isNotBlank() } }.cachedIn(viewModelScope)
         } else null
     }
 //.map { it.filter { it.mbid.isNullOrBlank() } }

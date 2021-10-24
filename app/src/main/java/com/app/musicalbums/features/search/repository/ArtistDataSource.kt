@@ -1,5 +1,6 @@
 package com.app.musicalbums.features.search.repository
 
+import android.util.Log
 import com.app.musicalbums.base.BasePagingAdapter
 import com.app.musicalbums.models.Artist
 import com.app.musicalbums.models.ArtistSearchResponse
@@ -21,6 +22,7 @@ open class ArtistDataSource(
     }
 
     override suspend fun callAPI(currentPage: Int): Response<ArtistSearchResponse> {
+        Log.i("tag",artistApiService.toString())
         val response = artistApiService.getSearchResultsArtist(
             FMApiMethods.SEARCH_ARTIST,
             searchQuery,

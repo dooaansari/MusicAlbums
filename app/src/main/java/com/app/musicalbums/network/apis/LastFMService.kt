@@ -3,6 +3,7 @@ package com.app.musicalbums.network.apis
 import com.app.musicalbums.models.Album
 import com.app.musicalbums.models.ArtistSearchResponse
 import com.app.musicalbums.models.TopAlbumsResponse
+import com.app.musicalbums.models.TrackResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -27,5 +28,6 @@ interface LastFMService {
     suspend fun getAlbumTracks(
         @Query("method") method: String,
         @Query("artist") artist: String,
-    ): Response<Album>
+        @Query("album") album: String,
+    ): Response<TrackResponse>
 }

@@ -7,8 +7,10 @@ import com.app.musicalbums.contracts.IOnAlbumClick
 import com.app.musicalbums.contracts.IOnItemClick
 import com.app.musicalbums.databinding.AlbumsRecyclerRowBinding
 import com.app.musicalbums.enums.ImageSize
+import com.app.musicalbums.helpers.loadAlbumImage
 import com.app.musicalbums.helpers.loadImage
 import com.app.musicalbums.models.Album
+import com.app.musicalbums.room.entities.AlbumWithTracks
 
 
 class AlbumsViewHolder(private val binding: AlbumsRecyclerRowBinding) :
@@ -17,11 +19,25 @@ class AlbumsViewHolder(private val binding: AlbumsRecyclerRowBinding) :
         itemClickListener = onItemClick
         binding.root.setOnClickListener(this)
         binding.favourite.setOnClickListener(this)
-        if (data is Album) {
-            with(data) {
-                binding.albumName.text = name
-                binding.image.loadImage(this.images, ImageSize.medium)
+        val albumData = when (data is Album) {
+            true -> data
+            else -> (data as AlbumWithTracks).album
+
+        }
+        with(albumData) {
+            binding.albumName.text = name
+
+            if (this.isFavourite) {
+                binding.favourite.setText(R.string.icon_heart_unfilled)
+            } else {
+                binding.favourite.setText(R.string.icon_heart)
             }
+        }
+        if (data is Album) {
+            binding.image.loadImage(albumData.images, ImageSize.medium)
+
+        } else if (data is AlbumWithTracks) {
+            binding.image.loadAlbumImage(data.image.find { it.size == ImageSize.medium.name })
         }
     }
 

@@ -1,10 +1,13 @@
 package com.app.musicalbums.room.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.app.musicalbums.enums.ImageSize
 import com.app.musicalbums.models.Album
+import com.app.musicalbums.models.AlbumImage
 import com.app.musicalbums.models.Artist
 import com.app.musicalbums.models.Track
 import com.app.musicalbums.room.entities.AlbumEntity
@@ -15,11 +18,11 @@ import com.app.musicalbums.room.entities.TrackEntity
 @Dao
 abstract class AlbumDao {
 
-    @Query("SELECT * FROM album where id=:id")
-    abstract suspend fun getAlbumDetails(id: Int): List<AlbumWithTracks>
+    @Query("SELECT * FROM album where name=:name")
+    abstract suspend fun getAlbumDetails(name: String): List<AlbumWithTracks>
 
     @Query("SELECT * FROM album")
-    abstract suspend fun getAllAlbums(): List<Album>
+    abstract fun getAllAlbums(): PagingSource<Int,AlbumWithTracks>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertArtist(artist: Artist): Long
@@ -28,26 +31,39 @@ abstract class AlbumDao {
     abstract suspend fun insertAlbum(artist: Album): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertAlbumImage(albumImage: AlbumImage): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertTracks(tracks: List<Track>):List<Long>
 
     suspend fun insertAlbumsWithTracks(artist: Artist, album: Album, tracks: List<Track>){
-        val artistId = insertArtist(artist)
-        album.artistId= artistId
-
-        val albumId = insertAlbum(album)
-
-        tracks.forEach {
-            it.albumId = albumId
+        insertArtist(artist)
+        album.mbid = artist.mbid
+        insertAlbum(album)
+        val mediumImage = album.images?.find { it.size ==ImageSize.medium.name }
+        val largeImage = album.images?.find { it.size == ImageSize.large.name }
+        mediumImage?.text?.let {
+            val albumImageMedium = AlbumImage(albumName = album.name, text = it, size = mediumImage.size)
+            insertAlbumImage(albumImageMedium)
         }
 
-        insertTracks(tracks)
+        largeImage?.text?.let {
+            val albumImageLarge = AlbumImage(albumName = album.name, text = it, size = largeImage.size)
+            insertAlbumImage(albumImageLarge)
+        }
+        val filteredTracks = tracks.filter { it.name.isNotBlank() }
+        filteredTracks .forEach {
+            it.albumName = album.name
+        }
+
+        insertTracks(filteredTracks)
     }
 
-
+    @Query("DELETE FROM album where name=:name")
+    abstract suspend fun deleteAlbum(name: String)
 
 //    @Insert(onConflict = OnConflictStrategy.IGNORE)
 //    suspend fun insert(word: Word)
 //
-//    @Query("DELETE FROM word_table")
-//    suspend fun deleteAll()
+
 }

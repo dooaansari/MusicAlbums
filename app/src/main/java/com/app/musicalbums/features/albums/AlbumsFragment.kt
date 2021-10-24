@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -20,9 +21,12 @@ import com.app.musicalbums.base.BaseFragment
 import com.app.musicalbums.contracts.IOnAlbumClick
 import com.app.musicalbums.contracts.IOnItemClick
 import com.app.musicalbums.databinding.AlbumsFragmentBinding
+import com.app.musicalbums.enums.ImageSize
+import com.app.musicalbums.features.search.SearchFragmentDirections
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -53,22 +57,32 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
         setRecyclerView()
         getTopAlbums(args.artist)
         addScreenLoaderObserver()
+        setFavouriteObserver()
+        setAlbumTrackObserver()
+    }
+
+    fun setViews(isLoaderVisible: Boolean, isRecyclerVisible: Boolean, isNoDataVisible: Boolean) {
+        binding.noData.isVisible = isNoDataVisible
+        binding.loaderMain.isVisible = isLoaderVisible
+        binding.albumsRecyclerview.isVisible = isRecyclerVisible
     }
 
     fun setLoadState(loadState: CombinedLoadStates) {
-        viewModel.isEmptyList =
-            loadState.refresh is LoadState.NotLoading && albumsAdapter.itemCount == 0
+        viewModel.isEmptyList = albumsAdapter.itemCount == 0
+        val isLoading = loadState.source.refresh is LoadState.Loading
 
         if (loadState.source.refresh is LoadState.Error) {
             binding.noData.text = context?.getString(R.string.unable_fetch)
+            setViews(false, false, true)
         } else {
-            binding.noData.text = context?.getString(R.string.no_data)
+            if (viewModel.isEmptyList) {
+                binding.noData.text = context?.getString(R.string.no_data)
+                setViews(isLoading, !isLoading && !viewModel.isEmptyList, !isLoading)
+            } else {
+                setViews(false, true, false)
+            }
 
         }
-        binding.noData.isVisible = viewModel.isEmptyList
-        binding.loader.isVisible = loadState.source.refresh is LoadState.Loading
-        binding.albumsRecyclerview.isVisible =
-            loadState.source.refresh is LoadState.NotLoading && !viewModel.isEmptyList
     }
 
     private fun addLoadStateHandler() {
@@ -100,15 +114,47 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
         })
     }
 
+    fun setFavouriteObserver() {
+        viewModel.favouriteAddResult.observe(viewLifecycleOwner, {
+            if (it.first) {
+                albumsAdapter.updateFavouriteRow(viewModel.clickedPosition)
+            }
+            this@AlbumsFragment.view?.let { view ->
+                Snackbar.make(
+                    view,
+                    getString(it.second),
+                    LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
     override fun onFavouriteClick(position: Int) {
         albumsAdapter.snapshot()[position]?.let {
-            val result = viewModel.setAlbumTracks(it)
-            this.view?.let { view -> Snackbar.make(view, getString(result), LENGTH_SHORT).show() }
+            viewModel.clickedPosition = position
+            viewModel.setAlbumTracks(it)
         }
     }
 
+    fun setAlbumTrackObserver() {
+        viewModel.albumTracks.observe(viewLifecycleOwner, {
+            val data = albumsAdapter.snapshot()[viewModel.clickedPosition]
+            findNavController().navigate(
+                AlbumsFragmentDirections.actionTopalbumsToDetails(
+                    data?.artist?.name ?: "",
+                    data?.name ?: "",
+                    data?.images?.find { it.size == ImageSize.large.name }?.text ?: "",
+                    it.toTypedArray()
+                )
+            )
+        })
+    }
+
     override fun onRecyclerItemClick(position: Int) {
-        Log.i("tag", albumsAdapter.snapshot()[position]?.name ?: "")
+        viewModel.clickedPosition = position
+        val data = albumsAdapter.snapshot()[position]
+        viewModel.getAlbumTracks(data?.artist?.name, data?.name)
+
     }
 
 }

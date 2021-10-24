@@ -9,8 +9,8 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "artist")
 data class Artist(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
+//    @PrimaryKey(autoGenerate = true)
+//    var id: Int? = null,
 
     @SerializedName("name")
     @Expose
@@ -21,9 +21,10 @@ data class Artist(
     @Expose
     var listeners: String? = null,
 
+    @PrimaryKey
     @SerializedName("mbid")
     @Expose
-    var mbid: String? = null,
+    var mbid: String = "",
 
     @Ignore
     @SerializedName("url")
@@ -35,9 +36,11 @@ data class Artist(
     @Expose
     var streamable: String? = null,
 
+    @Ignore
     @SerializedName("image")
     @Expose
     var images: List<Image>? = null,
 
-    val image: String? = images?.find { it.size == ImageSize.medium.name }?.text,
+    @Transient
+    var image: String? = images?.find { it.size == ImageSize.medium.name }?.text,
 )

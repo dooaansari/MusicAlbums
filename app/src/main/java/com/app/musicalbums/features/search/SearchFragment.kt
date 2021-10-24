@@ -46,25 +46,33 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
         setRecyclerView()
     }
 
-    fun setLoadState(loadState: CombinedLoadStates, isInitialLoad: Boolean){
-        viewModel.isEmptyList =
-            loadState.refresh is LoadState.NotLoading && artistAdapter.itemCount == 0
+    fun setViews(isLoaderVisible: Boolean, isRecyclerVisible: Boolean, isNoDataVisible: Boolean) {
+        binding.noData.isVisible = isNoDataVisible
+        binding.loader.isVisible = isLoaderVisible
+        binding.artistRecyclerview.isVisible = isRecyclerVisible
+    }
+
+    fun setLoadState(loadState: CombinedLoadStates) {
+        viewModel.isEmptyList = artistAdapter.itemCount == 0
+        val isLoading = loadState.source.refresh is LoadState.Loading
 
         if (loadState.source.refresh is LoadState.Error) {
             binding.noData.text = context?.getString(R.string.unable_fetch)
+            setViews(false, false, true)
         } else {
-            binding.noData.text = context?.getString(R.string.no_data)
+            if (viewModel.isEmptyList) {
+                binding.noData.text = context?.getString(R.string.no_data)
+                setViews(isLoading, !isLoading && !viewModel.isEmptyList, !isLoading)
+            } else {
+                setViews(false, true, false)
+            }
 
         }
-        binding.noData.isVisible = viewModel.isEmptyList && !isInitialLoad
-        binding.loader.isVisible = loadState.source.refresh is LoadState.Loading
-        binding.artistRecyclerview.isVisible =
-            loadState.source.refresh is LoadState.NotLoading && !viewModel.isEmptyList
     }
 
     private fun addLoadStateHandler(){
         artistAdapter.addLoadStateListener { loadState ->
-          setLoadState(loadState, viewModel.isInitialLoad)
+          setLoadState(loadState)
         }
     }
     private fun setRecyclerView() {

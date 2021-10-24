@@ -47,5 +47,7 @@ abstract class BaseFragment<T: ViewBinding> : Fragment(), IToolbar {
         super.onPrepareOptionsMenu(menu)
         setMenuItems(menu)
     }
+
+
 }
 

@@ -17,6 +17,12 @@ class AlbumsAdapter(onItemClick: IOnItemClick) : BasePagingDataAdapter<AlbumsRec
     onItemClick
 ) {
 
+    fun updateFavouriteRow(position:Int){
+        snapshot()[position]?.isFavourite = true
+        //val diffUtil = DataDifferntiator
+        notifyItemChanged(position)
+    }
+
     object DataDifferntiator : DiffUtil.ItemCallback<Album>() {
 
         override fun areItemsTheSame(oldItem: Album, newItem: Album): Boolean {

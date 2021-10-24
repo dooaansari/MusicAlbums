@@ -1,19 +1,14 @@
 package com.app.musicalbums.models
 
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
 import com.app.musicalbums.enums.ImageSize
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "album")
-data class Album(
-    @PrimaryKey
+data class TrackAlbum(
+
     @SerializedName("name")
     @Expose
-    var name: String = "",
-    @Ignore
+    var name: String? = null,
     @SerializedName("playcount")
     @Expose
     var playcount: Int? = null,
@@ -23,20 +18,21 @@ data class Album(
     @SerializedName("url")
     @Expose
     var url: String? = null,
-    @Ignore
     @SerializedName("artist")
     @Expose
-    var artist: Artist? = null,
-    @Ignore
+    var artist: String? = null,
     @SerializedName("image")
     @Expose
     var images: List<Image>? = null,
+    @SerializedName("tracks")
+    @Expose
+    var tracks: Tracks? = null,
 
     @Transient
-    var isFavourite: Boolean = false
-
+    var image: String? = images?.find { it.size == ImageSize.medium.name }?.text,
+    @Transient
+    var artistId: Long? = 0
 ) {
-    constructor(name: String
-                , mbid: String?)
-            : this(name, 0, mbid, null, null, null)
+    constructor(id: Int?, name: String?, mbid: String?, image: String?, artistId: Long?)
+            : this( name, 0, mbid, null, null, null, null, image, artistId)
 }

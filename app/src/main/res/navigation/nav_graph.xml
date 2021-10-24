@@ -27,6 +27,9 @@
         android:label="@string/main"
         tools:layout="@layout/main_fragment">
         <action
+            android:id="@+id/action_main_to_details"
+            app:destination="@id/details_fragment"/>
+        <action
             android:id="@+id/action_main_to_search"
             app:destination="@id/search_fragment" />
     </fragment>
@@ -39,9 +42,7 @@
 
         <action
             android:id="@+id/action_search_to_topalbums"
-            app:destination="@id/albums_fragment" >
-
-        </action>
+            app:destination="@id/albums_fragment"/>
 
     </fragment>
 
@@ -49,9 +50,32 @@
         android:id="@+id/albums_fragment"
         android:name="com.app.musicalbums.features.albums.AlbumsFragment"
         android:label="@string/albums"
-        tools:layout="@layout/albums_fragment" >
+        tools:layout="@layout/albums_fragment">
+        <action
+            android:id="@+id/action_topalbums_to_details"
+            app:destination="@id/details_fragment"/>
+
         <argument
             android:name="artist"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/details_fragment"
+        android:name="com.app.musicalbums.features.details.AlbumDetailsFragment"
+        android:label="@string/details"
+        tools:layout="@layout/album_details_fragment">
+        <argument
+            android:name="artist"
+            app:argType="string" />
+        <argument
+            android:name="album"
+            app:argType="string" />
+        <argument
+            android:name="album_image"
+            app:argType="string" />
+        <argument
+            android:name="tracks"
+            app:argType="com.app.musicalbums.models.Track[]" />
     </fragment>
 </navigation>

@@ -19,6 +19,10 @@ class FontIcon @JvmOverloads constructor(
         true
     )
 
+    fun setText(icon: Int){
+        binding.icon.text = context.getString(icon)
+    }
+
     init {
         val typedArray = context.obtainStyledAttributes(
             attrs,

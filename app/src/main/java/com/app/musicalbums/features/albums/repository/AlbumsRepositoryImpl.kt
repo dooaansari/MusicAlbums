@@ -4,6 +4,7 @@ import com.app.musicalbums.base.BaseRepository
 import com.app.musicalbums.models.Album
 import com.app.musicalbums.models.Artist
 import com.app.musicalbums.models.Track
+import com.app.musicalbums.models.TrackAlbum
 import com.app.musicalbums.network.apis.LastFMService
 import com.app.musicalbums.network.apis.IOResponse
 import com.app.musicalbums.network.constants.FMApiMethods
@@ -20,11 +21,11 @@ class AlbumsRepositoryImpl @Inject constructor(
     override fun getAlbumsListDataSource(artistName: String) =
         AlbumsDataSource(lastFMService, artistName)
 
-    override suspend fun getAlbumTrack(artistName: String): IOResponse<Album?> {
+    override suspend fun getAlbumTrack(artistName: String, albumName: String): IOResponse<TrackAlbum?> {
         try {
-            val response = lastFMService.getAlbumTracks(FMApiMethods.ALBUM_TRACKS, artistName)
+            val response = lastFMService.getAlbumTracks(FMApiMethods.ALBUM_TRACKS, artistName,albumName)
             return if (response.isSuccessful) {
-                val body = response.body()
+                val body = response.body()?.album
                 IOResponse.Success(body)
             } else {
                 IOResponse.Error(parseError(error = response.errorBody()?.string()))
@@ -40,6 +41,7 @@ class AlbumsRepositoryImpl @Inject constructor(
         album: Album,
         tracks: List<Track>
     ): IOResponse<Long> {
+       // return IOResponse.Error(java.lang.Exception())
         return try {
             albumDao.insertAlbumsWithTracks(artist, album, tracks)
             IOResponse.Success(1)

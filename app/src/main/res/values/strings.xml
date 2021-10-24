@@ -5,9 +5,11 @@
     <string name="home">Home</string>
     <string name="main">Main</string>
     <string name="albums">Albums</string>
+    <string name="details">Details</string>
 
     <!-- common -->
     <string name="search">Search</string>
+    <string name="duration">Duration</string>
 
     <!-- hint text -->
     <string name="search_artist_name_hint">Artist Name</string>
@@ -27,9 +29,12 @@
     <string name="authentication_failed">Authentication failed</string>
     <string name="operation_failed">Error occurred while processing request, Please try again in few moments</string>
     <string name="album_insert_failure">Sorry, There was an issue adding album to favourite</string>
-
+    <string name="track_false">Unable to find any tracks for this album, Sorry can not add this to favourite</string>
+    <string name="no_favourites">No favourite items available</string>
+    <string name="delete_album_error">Unable to delete album</string>
     <!-- success message -->
     <string name="album_insert_success">Album added to favourites</string>
+    <string name="album_delete_success">Album deleted successfully</string>
 
     <!-- font-awsome icons -->
     <string name="icon_heart">&#xf004;</string>
