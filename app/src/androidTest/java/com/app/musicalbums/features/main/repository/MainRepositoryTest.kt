@@ -59,14 +59,4 @@ class MainRepositoryTest {
         }
     }
 
-    @Test
-    fun getFavouriteAlbums() {
-        testCoroutineRule.runBlockingTest {
-            val spy = Mockito.spy(repository)
-            spy.getFavouritesDataSource()
-            Mockito.verify(spy).albumDao.getAllAlbums()
-        }
-
-    }
-
 }

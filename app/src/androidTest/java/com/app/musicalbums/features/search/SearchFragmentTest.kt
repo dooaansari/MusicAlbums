@@ -126,15 +126,5 @@ class SearchFragmentTest {
         onView(withId(R.id.artist_recyclerview)).check(matches(not(isDisplayed())))
     }
 
-    @Test
-    fun verifySearchOnClick(){
-        val component = mock(SearchComponent::class.java)
-        component.searchButtonClick =  {}
-        launchFragmentHiltContainer<SearchFragment>(){
-        }
-        onView(withId(R.id.search_text_field)).perform(typeText("Cherry"))
-        onView(withId(R.id.search_button)).perform(click())
-        Mockito.verify(component).searchButtonClick("Cherry")
-    }
 }
 

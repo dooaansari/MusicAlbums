@@ -13,8 +13,6 @@ import com.app.musicalbums.R
 import com.app.musicalbums.adapters.TracksAdapter
 import com.app.musicalbums.base.BaseFragment
 import com.app.musicalbums.databinding.AlbumDetailsFragmentBinding
-import com.app.musicalbums.features.albums.AlbumsFragmentArgs
-import com.app.musicalbums.helpers.loadAlbumImage
 import com.app.musicalbums.helpers.loadImage
 import kotlinx.coroutines.launch
 

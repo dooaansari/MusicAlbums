@@ -9,7 +9,7 @@ import com.app.musicalbums.models.Track
 import com.app.musicalbums.room.dao.AlbumDao
 
 @Database(
-    entities = [Artist::class,Album::class,Track::class, AlbumImage::class],
+    entities = [Artist::class, Album::class, Track::class, AlbumImage::class],
     version = 1
 )
 

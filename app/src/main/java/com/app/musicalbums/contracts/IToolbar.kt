@@ -7,19 +7,19 @@ import com.app.musicalbums.enums.ToolbarAction
 interface IToolbar {
     var toolBarActions: ArrayList<ToolbarAction>
 
-    fun setMenuItems(menu: Menu){
+    fun setMenuItems(menu: Menu) {
         val iterator = menu.children.iterator()
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             val item = iterator.next()
-            val isAvailable = toolBarActions.find {it.id == item.itemId }
-            item.isVisible = when(isAvailable){
+            val isAvailable = toolBarActions.find { it.id == item.itemId }
+            item.isVisible = when (isAvailable) {
                 null -> false
                 else -> true
             }
         }
     }
 
-    interface IAddAction{
+    interface IAddAction {
         abstract fun addAction()
     }
 }

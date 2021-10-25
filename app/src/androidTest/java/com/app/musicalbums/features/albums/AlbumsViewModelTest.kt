@@ -11,6 +11,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -19,6 +20,10 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import retrofit2.Response
+import org.mockito.Mockito.validateMockitoUsage
+
+
+
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
@@ -45,18 +50,15 @@ class AlbumsViewModelTest {
         viewModel = AlbumsViewModel(testCoroutineDispatcher, repository)
     }
 
+    @After
+    fun validate() {
+        validateMockitoUsage()
+    }
+
     @Test
     fun getTopAlbumeNullAlbumName() {
         val albumName = null
         assertEquals(viewModel.getTopAlbums(albumName), null)
-    }
-
-    @Test
-    fun getTopAlbums() {
-        val albumName = "cherr"
-        val spy = Mockito.spy(viewModel)
-        spy.getTopAlbums(albumName)
-        Mockito.verify(spy).repository.getAlbumsListDataSource(albumName)
     }
 
     @Test
@@ -184,5 +186,6 @@ class AlbumsViewModelTest {
         assertEquals(viewModel.albumTracks.value?.size, 0)
         assertEquals(viewModel.loadingStatus.value, false)
     }
+
 
 }

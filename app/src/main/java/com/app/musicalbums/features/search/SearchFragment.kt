@@ -71,11 +71,12 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
         }
     }
 
-    private fun addLoadStateHandler(){
+    private fun addLoadStateHandler() {
         artistAdapter.addLoadStateListener { loadState ->
-          setLoadState(loadState,viewModel.isInitialLoad)
+            setLoadState(loadState, viewModel.isInitialLoad)
         }
     }
+
     private fun setRecyclerView() {
         addLoadStateHandler()
         binding.artistRecyclerview.apply {
@@ -104,8 +105,12 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
     }
 
     override fun onRecyclerItemClick(position: Int) {
-        Log.i("tag",artistAdapter.snapshot()[position]?.name?: "")
-        findNavController().navigate(SearchFragmentDirections.actionSearchToTopalbums(artistAdapter.snapshot()[position]?.name?: ""))
+        Log.i("tag", artistAdapter.snapshot()[position]?.name ?: "")
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchToTopalbums(
+                artistAdapter.snapshot()[position]?.name ?: ""
+            )
+        )
     }
 
 

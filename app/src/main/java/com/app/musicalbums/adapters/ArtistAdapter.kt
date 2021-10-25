@@ -10,13 +10,13 @@ import com.app.musicalbums.contracts.IOnItemClick
 import com.app.musicalbums.databinding.ArtistRecyclerRowBinding
 import com.app.musicalbums.models.Artist
 
-//PagingDataAdapter<Artist, ArtistViewHolder>(DataDifferntiator)
-class ArtistAdapter(onItemClick: IOnItemClick) : BasePagingDataAdapter<ArtistRecyclerRowBinding, Artist, ArtistViewHolder>(
-    ArtistRecyclerRowBinding:: class.java,
-    ArtistViewHolder::class.java,
-    DataDifferntiator,
-    onItemClick
-) {
+class ArtistAdapter(onItemClick: IOnItemClick) :
+    BasePagingDataAdapter<ArtistRecyclerRowBinding, Artist, ArtistViewHolder>(
+        ArtistRecyclerRowBinding::class.java,
+        ArtistViewHolder::class.java,
+        DataDifferntiator,
+        onItemClick
+    ) {
 
     object DataDifferntiator : DiffUtil.ItemCallback<Artist>() {
 

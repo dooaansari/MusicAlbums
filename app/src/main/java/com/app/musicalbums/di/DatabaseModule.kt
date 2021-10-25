@@ -14,6 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
     const val DATABASE_NAME = "app_database"
+
     @Singleton
     @Provides
     fun provideAppDatabase(

@@ -20,7 +20,7 @@ abstract class BasePagingDataAdapter<V : ViewBinding, T : Any, E : BaseViewHolde
     }
 
     override fun onBindViewHolder(holder: E, position: Int) {
-        holder.bindView(getItem(position),onItemClick)
+        holder.bindView(getItem(position), onItemClick)
     }
 
 }

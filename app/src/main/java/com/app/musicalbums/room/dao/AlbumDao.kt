@@ -10,10 +10,7 @@ import com.app.musicalbums.models.Album
 import com.app.musicalbums.models.AlbumImage
 import com.app.musicalbums.models.Artist
 import com.app.musicalbums.models.Track
-import com.app.musicalbums.room.entities.AlbumEntity
 import com.app.musicalbums.room.entities.AlbumWithTracks
-import com.app.musicalbums.room.entities.ArtistEntity
-import com.app.musicalbums.room.entities.TrackEntity
 
 @Dao
 abstract class AlbumDao {

@@ -5,8 +5,8 @@ import com.app.musicalbums.models.Album
 import com.app.musicalbums.models.Artist
 import com.app.musicalbums.models.Track
 import com.app.musicalbums.models.TrackAlbum
-import com.app.musicalbums.network.apis.LastFMService
 import com.app.musicalbums.network.apis.IOResponse
+import com.app.musicalbums.network.apis.LastFMService
 import com.app.musicalbums.network.constants.FMApiMethods
 import com.app.musicalbums.network.exceptions.parseError
 import com.app.musicalbums.room.dao.AlbumDao
@@ -14,16 +14,20 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AlbumsRepositoryImpl @Inject constructor(
+open class AlbumsRepositoryImpl @Inject constructor(
     private val lastFMService: LastFMService,
     private val albumDao: AlbumDao
 ) : BaseRepository(), AlbumsRepository {
     override fun getAlbumsListDataSource(artistName: String) =
         AlbumsDataSource(lastFMService, artistName)
 
-    override suspend fun getAlbumTrack(artistName: String, albumName: String): IOResponse<TrackAlbum?> {
+    override suspend fun getAlbumTrack(
+        artistName: String,
+        albumName: String
+    ): IOResponse<TrackAlbum?> {
         try {
-            val response = lastFMService.getAlbumTracks(FMApiMethods.ALBUM_TRACKS, artistName,albumName)
+            val response =
+                lastFMService.getAlbumTracks(FMApiMethods.ALBUM_TRACKS, artistName, albumName)
             return if (response.isSuccessful) {
                 val body = response.body()?.album
                 IOResponse.Success(body)

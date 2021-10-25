@@ -1,6 +1,5 @@
 package com.app.musicalbums.features.search.repository
 
-import android.util.Log
 import com.app.musicalbums.base.BasePagingAdapter
 import com.app.musicalbums.models.Artist
 import com.app.musicalbums.models.ArtistSearchResponse

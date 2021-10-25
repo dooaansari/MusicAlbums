@@ -33,7 +33,7 @@ open class AlbumsViewModel @Inject constructor(
     var isEmptyList = true
     var navigatedToDetails = true
 
-    val getTopAlbums: (artist: String?) -> LiveData<PagingData<Album>>? = { artist ->
+    open val getTopAlbums: (artist: String?) -> LiveData<PagingData<Album>>? = { artist ->
         if (!artist.isNullOrBlank()) {
             isInitialLoad = false
             Pager(PagingConfig(pageSize = PAGE_SIZE)) {
@@ -95,14 +95,14 @@ open class AlbumsViewModel @Inject constructor(
                     loadingStatus.value = false
                 }
             }
-        }else{
+        } else {
             loadingStatus.value = false
         }
 
     }
 
-    fun resetObserver(){
-        favouriteAddResult.value = Pair(false,R.string.album_insert_failure)
+    fun resetObserver() {
+        favouriteAddResult.value = Pair(false, R.string.album_insert_failure)
     }
 
 }

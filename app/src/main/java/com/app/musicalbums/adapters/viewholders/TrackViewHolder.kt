@@ -1,12 +1,8 @@
 package com.app.musicalbums.adapters.viewholders
 
-import android.view.View
-import com.app.musicalbums.R
 import com.app.musicalbums.base.BaseViewHolder
 import com.app.musicalbums.contracts.IOnItemClick
-import com.app.musicalbums.databinding.ArtistRecyclerRowBinding
 import com.app.musicalbums.databinding.TrackRecyclerRowBinding
-import com.app.musicalbums.models.Artist
 import com.app.musicalbums.models.Track
 
 class TrackViewHolder(private val binding: TrackRecyclerRowBinding) :

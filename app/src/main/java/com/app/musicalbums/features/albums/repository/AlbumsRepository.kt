@@ -9,5 +9,9 @@ import com.app.musicalbums.network.apis.IOResponse
 interface AlbumsRepository {
     fun getAlbumsListDataSource(artistName: String): AlbumsDataSource
     suspend fun getAlbumTrack(artistName: String, albumName: String): IOResponse<TrackAlbum?>
-    suspend fun insertAlbumWithTracks(artist: Artist, album: Album, tracks: List<Track>): IOResponse<Long>
+    suspend fun insertAlbumWithTracks(
+        artist: Artist,
+        album: Album,
+        tracks: List<Track>
+    ): IOResponse<Long>
 }

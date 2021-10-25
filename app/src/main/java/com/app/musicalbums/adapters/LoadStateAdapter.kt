@@ -9,14 +9,17 @@ import com.app.musicalbums.databinding.ArtistRecyclerErrorFooterBinding
 
 class LoadStateAdapter : LoadStateAdapter<LoadStateHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateHolder {
-        val binding = ArtistRecyclerErrorFooterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ArtistRecyclerErrorFooterBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return LoadStateHolder(binding)
     }
 
     override fun onBindViewHolder(holder: LoadStateHolder, loadState: LoadState) {
         holder.bindView(loadState)
     }
-
 
 
 }

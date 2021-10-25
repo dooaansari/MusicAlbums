@@ -88,11 +88,4 @@ class MainViewModelTest {
         assertEquals(viewModel.deleteMessageId.value?.second, R.string.album_delete_success)
     }
 
-    @Test
-    fun getFavouriteAlbums() {
-        val spy = spy(viewModel)
-        spy.getFavouriteAlbums()
-        verify(spy).repository.getFavouritesDataSource()
-    }
-
 }

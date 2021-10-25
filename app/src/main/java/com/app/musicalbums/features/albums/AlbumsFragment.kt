@@ -1,36 +1,27 @@
 package com.app.musicalbums.features.albums
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.musicalbums.R
 import com.app.musicalbums.adapters.AlbumsAdapter
 import com.app.musicalbums.adapters.LoadStateAdapter
 import com.app.musicalbums.base.BaseFragment
 import com.app.musicalbums.contracts.IOnAlbumClick
-import com.app.musicalbums.contracts.IOnItemClick
 import com.app.musicalbums.databinding.AlbumsFragmentBinding
 import com.app.musicalbums.enums.ImageSize
-import com.app.musicalbums.features.search.SearchFragmentDirections
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

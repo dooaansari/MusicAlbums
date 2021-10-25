@@ -1,13 +1,11 @@
 package com.app.musicalbums.di
 
-import com.app.musicalbums.network.apis.CommentsService
 import com.app.musicalbums.network.apis.LastFMService
 import com.app.musicalbums.network.interceptors.QueryInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -34,12 +32,16 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun providesOkHttpClient(queryInterceptor: QueryInterceptor, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+    fun providesOkHttpClient(
+        queryInterceptor: QueryInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient =
         OkHttpClient
             .Builder()
             .addInterceptor(queryInterceptor)
             .addInterceptor(httpLoggingInterceptor)
             .build()
+
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder().baseUrl(BASE_URL)
@@ -47,11 +49,9 @@ object ApiModule {
         .client(okHttpClient)
         .build()
 
-    @Singleton
-    @Provides
-    fun provideApiService(retrofit: Retrofit): CommentsService = retrofit.create(CommentsService::class.java)
 
     @Singleton
     @Provides
-    fun provideLastFMApiService(retrofit: Retrofit): LastFMService = retrofit.create(LastFMService::class.java)
+    fun provideLastFMApiService(retrofit: Retrofit): LastFMService =
+        retrofit.create(LastFMService::class.java)
 }

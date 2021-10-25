@@ -44,12 +44,4 @@ class SearchViewModelTest {
         assertEquals(viewModel.getSearchedArtist(query), null)
     }
 
-    @Test
-    fun getSearchedArtist() {
-        val query = "query"
-        val spy = Mockito.spy(viewModel)
-        spy.getSearchedArtist(query)
-        Mockito.verify(spy).repository.getArtistListDataSource(query)
-    }
-
 }

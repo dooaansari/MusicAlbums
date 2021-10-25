@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.app.musicalbums.di.IoDispatcher
 import com.app.musicalbums.features.search.repository.SearchRepository
-import com.app.musicalbums.features.search.repository.SearchRepositoryImpl
 import com.app.musicalbums.models.Artist
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher

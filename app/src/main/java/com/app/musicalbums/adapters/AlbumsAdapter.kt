@@ -10,14 +10,15 @@ import com.app.musicalbums.contracts.IOnItemClick
 import com.app.musicalbums.databinding.AlbumsRecyclerRowBinding
 import com.app.musicalbums.models.Album
 
-class AlbumsAdapter(onItemClick: IOnItemClick) : BasePagingDataAdapter<AlbumsRecyclerRowBinding, Album, AlbumsViewHolder>(
-    AlbumsRecyclerRowBinding::class.java,
-    AlbumsViewHolder::class.java,
-    DataDifferntiator,
-    onItemClick
-) {
+class AlbumsAdapter(onItemClick: IOnItemClick) :
+    BasePagingDataAdapter<AlbumsRecyclerRowBinding, Album, AlbumsViewHolder>(
+        AlbumsRecyclerRowBinding::class.java,
+        AlbumsViewHolder::class.java,
+        DataDifferntiator,
+        onItemClick
+    ) {
 
-    fun updateFavouriteRow(position:Int){
+    fun updateFavouriteRow(position: Int) {
         snapshot()[position]?.isFavourite = true
         notifyItemChanged(position)
     }

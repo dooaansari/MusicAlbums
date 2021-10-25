@@ -20,7 +20,6 @@ import com.app.musicalbums.contracts.IToolbar
 import com.app.musicalbums.databinding.MainFragmentBinding
 import com.app.musicalbums.enums.ImageSize
 import com.app.musicalbums.enums.ToolbarAction
-import com.app.musicalbums.features.albums.AlbumsFragmentDirections
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
