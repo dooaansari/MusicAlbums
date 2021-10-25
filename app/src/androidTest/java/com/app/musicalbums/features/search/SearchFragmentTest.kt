@@ -76,7 +76,7 @@ class SearchFragmentTest {
         launchFragmentHiltContainer<SearchFragment>()
         onView(withId(R.id.loader)).check(matches(not(isDisplayed())))
         onView(withId(R.id.no_data)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.artist_recyclerview)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.artist_recyclerview)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -103,7 +103,7 @@ class SearchFragmentTest {
             source = LoadStates(LoadState.Error(exception),LoadState.Error(exception),LoadState.Error(exception))
         )
         launchFragmentHiltContainer<SearchFragment>(){
-            this.setLoadState(loadState)
+            this.setLoadState(loadState,false)
         }
         onView(withId(R.id.loader)).check(matches(not(isDisplayed())))
         onView(withId(R.id.no_data)).check(matches(isDisplayed()))
@@ -119,7 +119,7 @@ class SearchFragmentTest {
             source = LoadStates(LoadState.Loading,LoadState.Loading,LoadState.Loading)
         )
         launchFragmentHiltContainer<SearchFragment>(){
-            this.setLoadState(loadState)
+            this.setLoadState(loadState,false)
         }
         onView(withId(R.id.loader)).check(matches(isDisplayed()))
         onView(withId(R.id.no_data)).check(matches(not(isDisplayed())))
@@ -128,13 +128,13 @@ class SearchFragmentTest {
 
     @Test
     fun verifySearchOnClick(){
-        val viewModel = mock(SearchComponent::class.java)
-        viewModel.searchButtonClick =  {}
+        val component = mock(SearchComponent::class.java)
+        component.searchButtonClick =  {}
         launchFragmentHiltContainer<SearchFragment>(){
         }
         onView(withId(R.id.search_text_field)).perform(typeText("Cherry"))
         onView(withId(R.id.search_button)).perform(click())
-        Mockito.verify(viewModel).searchButtonClick("Cherry")
+        Mockito.verify(component).searchButtonClick("Cherry")
     }
 }
 

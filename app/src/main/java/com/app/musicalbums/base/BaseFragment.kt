@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.app.musicalbums.MainActivity
 import com.app.musicalbums.R
 import com.app.musicalbums.contracts.IToolbar
 import com.app.musicalbums.enums.ToolbarAction
@@ -16,10 +17,10 @@ import com.app.musicalbums.features.main.MainFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
-abstract class BaseFragment<T: ViewBinding> : Fragment(), IToolbar {
+abstract class BaseFragment<T : ViewBinding> : Fragment(), IToolbar {
 
     protected lateinit var binding: T
-    protected abstract val viewModel:ViewModel
+    protected abstract val viewModel: ViewModel
 
     override var toolBarActions = arrayListOf<ToolbarAction>()
 
@@ -43,11 +44,14 @@ abstract class BaseFragment<T: ViewBinding> : Fragment(), IToolbar {
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu){
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         setMenuItems(menu)
     }
 
+    fun setActionBarTitle(title: String?) {
+        (activity as MainActivity?)?.supportActionBar?.title = title
+    }
 
 }
 

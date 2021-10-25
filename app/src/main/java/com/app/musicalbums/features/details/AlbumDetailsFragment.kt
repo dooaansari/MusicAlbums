@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.musicalbums.R
 import com.app.musicalbums.adapters.TracksAdapter
 import com.app.musicalbums.base.BaseFragment
 import com.app.musicalbums.databinding.AlbumDetailsFragmentBinding
@@ -35,6 +36,7 @@ class AlbumDetailsFragment : BaseFragment<AlbumDetailsFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setActionBarTitle(context?.getString(R.string.album_details))
         setArgumentsData()
         setRecyclerView()
     }

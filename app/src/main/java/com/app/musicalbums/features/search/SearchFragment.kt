@@ -42,6 +42,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setActionBarTitle(context?.getString(R.string.artist))
         setOnClickListenerSearchButton()
         setRecyclerView()
     }
@@ -52,7 +53,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
         binding.artistRecyclerview.isVisible = isRecyclerVisible
     }
 
-    fun setLoadState(loadState: CombinedLoadStates) {
+    fun setLoadState(loadState: CombinedLoadStates, isInitialLoad: Boolean) {
         viewModel.isEmptyList = artistAdapter.itemCount == 0
         val isLoading = loadState.source.refresh is LoadState.Loading
 
@@ -60,7 +61,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
             binding.noData.text = context?.getString(R.string.unable_fetch)
             setViews(false, false, true)
         } else {
-            if (viewModel.isEmptyList && !viewModel.isInitialLoad) {
+            if (viewModel.isEmptyList && !isInitialLoad) {
                 binding.noData.text = context?.getString(R.string.no_data)
                 setViews(isLoading, !isLoading && !viewModel.isEmptyList, !isLoading)
             } else {
@@ -72,7 +73,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
 
     private fun addLoadStateHandler(){
         artistAdapter.addLoadStateListener { loadState ->
-          setLoadState(loadState)
+          setLoadState(loadState,viewModel.isInitialLoad)
         }
     }
     private fun setRecyclerView() {

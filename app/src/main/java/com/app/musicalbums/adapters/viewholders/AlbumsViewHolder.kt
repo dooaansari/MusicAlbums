@@ -37,6 +37,7 @@ class AlbumsViewHolder(private val binding: AlbumsRecyclerRowBinding) :
             binding.image.loadImage(albumData.images, ImageSize.medium)
 
         } else if (data is AlbumWithTracks) {
+            binding.favourite.setText(R.string.icon_heart)
             binding.image.loadAlbumImage(data.image.find { it.size == ImageSize.medium.name })
         }
     }

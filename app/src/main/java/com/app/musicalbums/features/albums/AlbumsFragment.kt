@@ -57,6 +57,7 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setActionBarTitle(context?.getString(R.string.albums))
         setRecyclerView()
         addScreenLoaderObserver()
         setFavouriteObserver()

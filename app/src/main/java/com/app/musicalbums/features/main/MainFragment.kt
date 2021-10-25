@@ -41,7 +41,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>(), IToolbar.IAddAction, I
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        getTopAlbums()
         binding = MainFragmentBinding.inflate(inflater, container, false)
         addAction()
         return binding.root
@@ -49,17 +48,21 @@ class MainFragment : BaseFragment<MainFragmentBinding>(), IToolbar.IAddAction, I
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setActionBarTitle(context?.getString(R.string.favourites))
+        getTopAlbums()
         setRecyclerView()
         setDeleteObserver()
     }
 
     fun getTopAlbums() {
-        viewModel.getFavouriteAlbums()?.observe(viewLifecycleOwner, {
-            lifecycleScope.launch {
-                favouriteAdapter.submitData(it)
-            }
+        lifecycleScope.launch {
+            viewModel.getFavouriteAlbums()?.observe(viewLifecycleOwner, {
+                lifecycleScope.launch {
+                    favouriteAdapter.submitData(it)
+                }
 
-        })
+            })
+        }
     }
 
     private fun setRecyclerView() {
@@ -72,9 +75,11 @@ class MainFragment : BaseFragment<MainFragmentBinding>(), IToolbar.IAddAction, I
 
 
     fun setViews(isLoaderVisible: Boolean, isRecyclerVisible: Boolean, isNoDataVisible: Boolean) {
-        binding.noData.isVisible = isNoDataVisible
-        binding.loaderMain.isVisible = isLoaderVisible
-        binding.favouriteAlbumsRecyclerview.isVisible = isRecyclerVisible
+        activity?.runOnUiThread {
+            binding.noData.isVisible = isNoDataVisible
+            binding.loaderMain.isVisible = isLoaderVisible
+            binding.favouriteAlbumsRecyclerview.isVisible = isRecyclerVisible
+        }
     }
 
     fun setLoadState(loadState: CombinedLoadStates) {

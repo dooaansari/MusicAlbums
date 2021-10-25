@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">MusicAlbums</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="login">Login</string>
     <string name="home">Home</string>
     <string name="main">Main</string>
     <string name="albums">Albums</string>
     <string name="details">Details</string>
+    <string name="artist">Artist</string>
+    <string name="favourites">Favourites</string>
+    <string name="album_details">Album Details</string>
 
     <!-- common -->
     <string name="search">Search</string>
