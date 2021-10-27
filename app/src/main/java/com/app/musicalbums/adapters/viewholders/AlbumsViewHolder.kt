@@ -16,6 +16,7 @@ import com.app.musicalbums.room.entities.AlbumWithTracks
 class AlbumsViewHolder(private val binding: AlbumsRecyclerRowBinding) :
     BaseViewHolder(binding.root), View.OnClickListener {
     override fun bindView(data: Any?, onItemClick: IOnItemClick?) {
+        binding.image.setImageURI(null);
         itemClickListener = onItemClick
         binding.root.setOnClickListener(this)
         binding.favourite.setOnClickListener(this)

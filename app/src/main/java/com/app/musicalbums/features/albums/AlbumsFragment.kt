@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -53,6 +54,16 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
         addScreenLoaderObserver()
         setFavouriteObserver()
         setAlbumTrackObserver()
+        setPersistDataEvents()
+    }
+
+    fun setPersistDataEvents(){
+        viewModel.persistLiveData?.observe(viewLifecycleOwner, {
+            viewLifecycleOwner.lifecycleScope.launch {
+                albumsAdapter.submitData(it)
+            }
+
+        })
     }
 
     fun setViews(isLoaderVisible: Boolean, isRecyclerVisible: Boolean, isNoDataVisible: Boolean) {
@@ -100,25 +111,22 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
     }
 
     fun getTopAlbums(artist: String?) {
-        if (albumsAdapter.itemCount == 0)
-            viewModel.getTopAlbums(artist)?.observe(viewLifecycleOwner, {
-                lifecycleScope.launch {
-                    albumsAdapter.submitData(it)
-                }
-
-            })
+        if (albumsAdapter.itemCount == 0 && !viewModel.isArtistDataLoaded)
+            viewModel.getTopAlbums(artist)
     }
 
     fun setFavouriteObserver() {
         viewModel.favouriteAddResult.observe(viewLifecycleOwner, {
-            if (it.first) {
-                albumsAdapter.updateFavouriteRow(viewModel.clickedPosition)
-                this@AlbumsFragment.view?.let { view ->
-                    Snackbar.make(
-                        view,
-                        getString(it.second),
-                        LENGTH_SHORT
-                    ).show()
+            if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                if (it.first) {
+                    albumsAdapter.updateFavouriteRow(viewModel.clickedPosition)
+                    this@AlbumsFragment.view?.let { view ->
+                        Snackbar.make(
+                            view,
+                            getString(it.second),
+                            LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
 

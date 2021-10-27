@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
@@ -45,6 +46,16 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
         setActionBarTitle(context?.getString(R.string.artist))
         setOnClickListenerSearchButton()
         setRecyclerView()
+        setPersistDataEvents()
+    }
+
+    fun setPersistDataEvents(){
+        viewModel.persistLiveData?.observe(viewLifecycleOwner, {
+            viewLifecycleOwner.lifecycleScope.launch {
+                artistAdapter.submitData(it)
+            }
+
+        })
     }
 
     fun setViews(isLoaderVisible: Boolean, isRecyclerVisible: Boolean, isNoDataVisible: Boolean) {
@@ -83,6 +94,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
             adapter = artistAdapter.withLoadStateFooter(artistLoadStateAdapter)
             layoutManager = LinearLayoutManager(context)
         }
+
     }
 
     private fun setOnClickListenerSearchButton() {
@@ -97,15 +109,15 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
     fun searchArtist(searchQuery: String) {
         viewModel.getSearchedArtist(searchQuery)?.observe(viewLifecycleOwner, { data ->
             data?.let {
-                lifecycleScope.launch {
-                    artistAdapter.submitData(it)
-                }
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        artistAdapter.submitData(it)
+                    }
             }
         })
     }
 
     override fun onRecyclerItemClick(position: Int) {
-        Log.i("tag", artistAdapter.snapshot()[position]?.name ?: "")
         findNavController().navigate(
             SearchFragmentDirections.actionSearchToTopalbums(
                 artistAdapter.snapshot()[position]?.name ?: ""

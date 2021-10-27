@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
@@ -129,14 +130,16 @@ class MainFragment : BaseFragment<MainFragmentBinding>(), IToolbar.IAddAction, I
 
     fun setDeleteObserver() {
         viewModel.deleteMessageId.observe(viewLifecycleOwner, {
-            favouriteAdapter.deleteFavouriteRow(viewModel.clickedPosition)
             if (it.first) {
-                this@MainFragment.view?.let { view ->
-                    Snackbar.make(
-                        view,
-                        getString(it.second),
-                        BaseTransientBottomBar.LENGTH_SHORT
-                    ).show()
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                    favouriteAdapter.deleteFavouriteRow(viewModel.clickedPosition)
+                    this@MainFragment.view?.let { view ->
+                        Snackbar.make(
+                            view,
+                            getString(it.second),
+                            BaseTransientBottomBar.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
 

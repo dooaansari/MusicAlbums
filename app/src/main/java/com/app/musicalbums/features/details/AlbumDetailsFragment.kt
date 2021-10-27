@@ -50,6 +50,7 @@ class AlbumDetailsFragment : BaseFragment<AlbumDetailsFragmentBinding>() {
                 args.tracks.toList()
             )
         }
+        //binding.tracks.isNestedScrollingEnabled = false
         binding.noTracks.isVisible = args.tracks.isEmpty()
         binding.tracks.isVisible = !args.tracks.isEmpty()
     }

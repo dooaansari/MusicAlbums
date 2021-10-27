@@ -6,6 +6,7 @@ import com.app.musicalbums.R
 import com.app.musicalbums.di.IoDispatcher
 import com.app.musicalbums.features.albums.repository.AlbumsRepository
 import com.app.musicalbums.models.Album
+import com.app.musicalbums.models.Artist
 import com.app.musicalbums.models.Track
 import com.app.musicalbums.network.apis.IOResponse
 import com.app.musicalbums.network.exceptions.runTimeExceptionParser
@@ -32,14 +33,18 @@ open class AlbumsViewModel @Inject constructor(
     var isInitialLoad = true
     var isEmptyList = true
     var navigatedToDetails = true
+    var persistLiveData: LiveData<PagingData<Album>>? = null
+    var isArtistDataLoaded = false
 
     open val getTopAlbums: (artist: String?) -> LiveData<PagingData<Album>>? = { artist ->
         if (!artist.isNullOrBlank()) {
             isInitialLoad = false
-            Pager(PagingConfig(pageSize = PAGE_SIZE)) {
+            persistLiveData = Pager(PagingConfig(pageSize = PAGE_SIZE)) {
                 val data = repository.getAlbumsListDataSource(artist.trim())
                 data
             }.liveData.map { it.filter { it.name.isNotBlank() } }.cachedIn(viewModelScope)
+            isArtistDataLoaded = true
+            persistLiveData
         } else null
     }
 
