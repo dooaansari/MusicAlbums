@@ -50,7 +50,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
     }
 
     fun setPersistDataEvents(){
-        viewModel.persistLiveData?.observe(viewLifecycleOwner, {
+        viewModel.searchResults.observe(viewLifecycleOwner, {
             viewLifecycleOwner.lifecycleScope.launch {
                 artistAdapter.submitData(it)
             }
@@ -107,14 +107,15 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(), IOnItemClick {
     }
 
     fun searchArtist(searchQuery: String) {
-        viewModel.getSearchedArtist(searchQuery)?.observe(viewLifecycleOwner, { data ->
-            data?.let {
-                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        artistAdapter.submitData(it)
-                    }
-            }
-        })
+        viewModel.setSearchQuery(searchQuery)
+//        viewModel.getSearchedArtist(searchQuery)?.observe(viewLifecycleOwner, { data ->
+//            data?.let {
+//                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+//                    viewLifecycleOwner.lifecycleScope.launch {
+//                        artistAdapter.submitData(it)
+//                    }
+//            }
+//        })
     }
 
     override fun onRecyclerItemClick(position: Int) {

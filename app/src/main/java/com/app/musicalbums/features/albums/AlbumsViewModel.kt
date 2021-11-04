@@ -18,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 open class AlbumsViewModel @Inject constructor(
     @IoDispatcher val ioDispatcher: CoroutineDispatcher,
-    val repository: AlbumsRepository
+    val repository: AlbumsRepository,
+    val state: SavedStateHandle
 ) : ViewModel() {
 
     companion object {
@@ -33,20 +34,18 @@ open class AlbumsViewModel @Inject constructor(
     var isInitialLoad = true
     var isEmptyList = true
     var navigatedToDetails = true
-    var persistLiveData: LiveData<PagingData<Album>>? = null
-    var isArtistDataLoaded = false
 
     open val getTopAlbums: (artist: String?) -> LiveData<PagingData<Album>>? = { artist ->
         if (!artist.isNullOrBlank()) {
             isInitialLoad = false
-            persistLiveData = Pager(PagingConfig(pageSize = PAGE_SIZE)) {
+            Pager(PagingConfig(pageSize = PAGE_SIZE)) {
                 val data = repository.getAlbumsListDataSource(artist.trim())
                 data
             }.liveData.map { it.filter { it.name.isNotBlank() } }.cachedIn(viewModelScope)
-            isArtistDataLoaded = true
-            persistLiveData
         } else null
     }
+
+    var topAlbumsData = getTopAlbums(state.get<String>("artist"))
 
     suspend fun insertAlbumsWithTracks(album: Album, tracks: List<Track>): Int {
         album.artist?.let {

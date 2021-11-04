@@ -42,7 +42,6 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        getTopAlbums(args.artist)
         binding = AlbumsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,7 +57,7 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
     }
 
     fun setPersistDataEvents(){
-        viewModel.persistLiveData?.observe(viewLifecycleOwner, {
+        viewModel.topAlbumsData?.observe(viewLifecycleOwner, {
             viewLifecycleOwner.lifecycleScope.launch {
                 albumsAdapter.submitData(it)
             }
@@ -109,12 +108,6 @@ class AlbumsFragment : BaseFragment<AlbumsFragmentBinding>(), IOnAlbumClick {
             binding.loaderScreen.isVisible = it
         })
     }
-
-    fun getTopAlbums(artist: String?) {
-        if (albumsAdapter.itemCount == 0 && !viewModel.isArtistDataLoaded)
-            viewModel.getTopAlbums(artist)
-    }
-
     fun setFavouriteObserver() {
         viewModel.favouriteAddResult.observe(viewLifecycleOwner, {
             if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {

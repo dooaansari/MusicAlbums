@@ -24,13 +24,32 @@ open class SearchViewModel @Inject constructor(
     var isEmptyList = true
     var persistLiveData: LiveData<PagingData<Artist>>? = null
 
+    private val _searchStringLiveData = MutableLiveData<String?>()
+
+    init {
+        _searchStringLiveData.value = ""
+    }
+
     val getSearchedArtist: (query: String?) -> LiveData<PagingData<Artist>>? = { searchQuery ->
         isInitialLoad = false
         if (!searchQuery.isNullOrBlank()) {
             persistLiveData = Pager(PagingConfig(pageSize = PAGE_SIZE)) {
                 repository.getArtistListDataSource(searchQuery.trim())
             }.liveData.map { it.filter { it.mbid.isNotBlank() } }.cachedIn(viewModelScope)
-           persistLiveData
-        }else null
+            persistLiveData
+        } else null
+    }
+
+    val searchResults = Transformations.switchMap(_searchStringLiveData) { query ->
+        isInitialLoad = false
+        if (!query.isNullOrBlank()) {
+            Pager(PagingConfig(pageSize = PAGE_SIZE)) {
+                repository.getArtistListDataSource(query.trim())
+            }.liveData.map { it.filter { it.mbid.isNotBlank() } }.cachedIn(viewModelScope)
+        } else null
+    }
+
+    fun setSearchQuery(query: String?) {
+        _searchStringLiveData.value = query
     }
 }
